@@ -1,0 +1,109 @@
+@import 'tailwindcss';
+
+@theme inline {
+	--color-cream: var(--gift-color-cream);
+	--color-cream-soft: var(--gift-color-cream-soft);
+	--color-peach: var(--gift-color-peach);
+	--color-rose: var(--gift-color-rose);
+	--color-rose-dark: var(--gift-color-rose-dark);
+	--color-brown: var(--gift-color-brown);
+	--color-ink: var(--gift-color-ink);
+	--color-muted: var(--gift-color-muted);
+	--color-tan: var(--gift-color-tan);
+	--color-gold: var(--gift-color-gold);
+	--color-purple: var(--gift-color-purple);
+	--color-success: var(--gift-color-success);
+	--color-dark-unlock: var(--gift-color-dark-unlock);
+
+	--font-heading: var(--gift-font-heading);
+	--font-body: var(--gift-font-body);
+	--font-handwritten: var(--gift-font-handwritten);
+
+	--radius-sm: var(--gift-radius-sm);
+	--radius-md: var(--gift-radius-md);
+	--radius-lg: var(--gift-radius-lg);
+	--radius-xl: var(--gift-radius-xl);
+
+	--shadow-card: var(--gift-shadow-card);
+	--shadow-button: var(--gift-shadow-button);
+	--shadow-soft: var(--gift-shadow-soft);
+}
+
+@layer base {
+	*,
+	*::before,
+	*::after {
+		box-sizing: border-box;
+	}
+
+	html {
+		min-width: 320px;
+		background: var(--gift-color-cream);
+		color: var(--gift-color-ink);
+		font-family: var(--gift-font-body);
+		-webkit-text-size-adjust: 100%;
+	}
+
+	body {
+		min-width: 320px;
+		min-height: 100dvh;
+		margin: 0;
+		background-color: var(--gift-color-cream);
+		background-image: url('/assets/backgrounds/warm-cream-bg.webp');
+		background-position: center;
+		background-size: cover;
+	}
+
+	button,
+	input,
+	textarea,
+	select {
+		font: inherit;
+	}
+
+	button,
+	a {
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	img,
+	svg {
+		display: block;
+		max-width: 100%;
+	}
+
+	h1,
+	h2,
+	h3 {
+		color: var(--gift-color-brown);
+		font-family: var(--gift-font-heading);
+	}
+}
+
+@layer components {
+	.mobile-shell {
+		width: min(100%, var(--gift-layout-mobile-width));
+		min-height: 100dvh;
+		margin-inline: auto;
+		padding: var(--gift-layout-safe-padding);
+	}
+
+	.gift-card {
+		border-radius: var(--gift-radius-lg);
+		background: var(--gift-color-cream-soft);
+		box-shadow: var(--gift-shadow-card);
+	}
+
+	.gift-button {
+		display: inline-flex;
+		min-height: 3.25rem;
+		align-items: center;
+		justify-content: center;
+		border-radius: var(--gift-radius-full);
+		background: var(--gift-color-rose);
+		padding-inline: var(--gift-spacing-6);
+		color: var(--gift-color-white);
+		font-weight: 700;
+		box-shadow: var(--gift-shadow-button);
+	}
+}

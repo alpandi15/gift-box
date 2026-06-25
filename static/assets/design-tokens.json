@@ -1,0 +1,69 @@
+{
+  "name": "Birthday Gift Hunt Design Tokens",
+  "colors": {
+    "bgCream": "#FFF6EA",
+    "bgCreamSoft": "#FFF9F0",
+    "peach": "#F4A6A0",
+    "rose": "#E77E86",
+    "roseDark": "#C85F69",
+    "brown": "#6B3F2A",
+    "ink": "#3A2520",
+    "muted": "#8C6F66",
+    "tan": "#E7C79C",
+    "gold": "#EFB66A",
+    "purple": "#B889C9",
+    "success": "#94B67E",
+    "darkUnlock": "#2F2D2D",
+    "white": "#FFFFFF"
+  },
+  "fontFamily": {
+    "heading": "'Nunito', 'Quicksand', system-ui, sans-serif",
+    "body": "'Nunito', system-ui, sans-serif",
+    "handwritten": "'Patrick Hand', 'Comic Sans MS', cursive"
+  },
+  "fontSize": {
+    "xs": "12px",
+    "sm": "14px",
+    "base": "16px",
+    "lg": "18px",
+    "xl": "22px",
+    "2xl": "28px",
+    "3xl": "36px"
+  },
+  "radius": {
+    "sm": "12px",
+    "md": "20px",
+    "lg": "28px",
+    "xl": "36px",
+    "full": "999px"
+  },
+  "spacing": {
+    "1": "4px",
+    "2": "8px",
+    "3": "12px",
+    "4": "16px",
+    "5": "20px",
+    "6": "24px",
+    "8": "32px",
+    "10": "40px",
+    "12": "48px"
+  },
+  "shadow": {
+    "card": "0 16px 40px rgba(107,63,42,0.12)",
+    "button": "0 10px 24px rgba(231,126,134,0.25)",
+    "soft": "0 8px 24px rgba(107,63,42,0.10)"
+  },
+  "button": {
+    "primaryBg": "#E77E86",
+    "primaryText": "#FFFFFF",
+    "secondaryBg": "#FFF6EA",
+    "secondaryText": "#C85F69",
+    "height": "52px",
+    "radius": "999px"
+  },
+  "layout": {
+    "mobileWidth": "390px",
+    "safePadding": "24px",
+    "cardPadding": "24px"
+  }
+}
