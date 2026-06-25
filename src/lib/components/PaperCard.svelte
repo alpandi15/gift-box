@@ -59,6 +59,7 @@
 <style>
 	.paper-card {
 		transform: translateZ(0);
+		animation: paper-card-enter 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
 	}
 
 	.paper-card__texture {
@@ -69,5 +70,23 @@
 		background-size: cover;
 		opacity: 0.12;
 		pointer-events: none;
+	}
+
+	@keyframes paper-card-enter {
+		from {
+			opacity: 0;
+			transform: translateY(0.75rem);
+		}
+
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.paper-card {
+			animation: none;
+		}
 	}
 </style>

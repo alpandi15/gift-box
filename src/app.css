@@ -38,6 +38,7 @@
 
 	html {
 		min-width: 320px;
+		overflow-x: hidden;
 		background: var(--gift-color-cream);
 		color: var(--gift-color-ink);
 		font-family: var(--gift-font-body);
@@ -48,6 +49,7 @@
 		min-width: 320px;
 		min-height: 100dvh;
 		margin: 0;
+		overflow-x: hidden;
 		background-color: var(--gift-color-cream);
 		background-image: url('/assets/backgrounds/warm-cream-bg.webp');
 		background-position: center;
@@ -105,5 +107,64 @@
 		color: var(--gift-color-white);
 		font-weight: 700;
 		box-shadow: var(--gift-shadow-button);
+	}
+
+	.page-enter {
+		animation: page-enter 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+	}
+
+	.soft-pulse {
+		animation: soft-pulse 2.8s ease-in-out infinite;
+	}
+
+	.gentle-float {
+		animation: gentle-float 3.6s ease-in-out infinite;
+	}
+}
+
+@keyframes page-enter {
+	from {
+		opacity: 0;
+		transform: translateY(0.75rem);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes soft-pulse {
+	0%,
+	100% {
+		opacity: 0.82;
+		transform: scale(1);
+	}
+
+	50% {
+		opacity: 1;
+		transform: scale(1.06);
+	}
+}
+
+@keyframes gentle-float {
+	0%,
+	100% {
+		transform: translateY(0);
+	}
+
+	50% {
+		transform: translateY(-0.35rem);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		scroll-behavior: auto !important;
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
 	}
 }

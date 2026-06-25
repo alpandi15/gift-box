@@ -10,16 +10,21 @@
 
 	let viewState = $state<ViewState>('loading');
 	let giftStep = $state<GiftStep | null>(null);
+	let guardHref = $state('/');
+	let guardLabel = $state('Kembali ke Awal');
 
 	onMount(() => {
 		const parsedStep = Number(page.params.step);
+		const state = getHuntState();
+
+		guardHref = state.started ? '/clue' : '/';
+		guardLabel = state.started ? 'Kembali ke Petunjuk Saat Ini' : 'Mulai dari Awal';
 
 		if (!Number.isInteger(parsedStep) || !isGiftStepId(parsedStep)) {
 			viewState = 'guarded';
 			return;
 		}
 
-		const state = getHuntState();
 		const wasAlreadyFound = state.foundSteps.includes(parsedStep);
 
 		if (!wasAlreadyFound && !canOpenGiftStep(parsedStep, state)) {
@@ -43,7 +48,7 @@
 </script>
 
 <AppShell title="Sebuah Pesan Terbuka" background="paper">
-	<div class="flex min-h-[calc(100dvh-3rem)] items-center py-5">
+	<div class="page-enter flex min-h-[calc(100dvh-3rem)] items-center py-3 sm:py-5">
 		{#if viewState === 'loading'}
 			<PaperCard class="w-full">
 				<div class="py-8 text-center" aria-live="polite">
@@ -60,6 +65,8 @@
 			<div class="w-full">
 				<GuardNotice
 					message="Balik dulu ke petunjuk yang sedang terbuka ya. Kejutannya akan terasa lebih manis kalau ditemukan berurutan."
+					actionHref={guardHref}
+					actionLabel={guardLabel}
 				/>
 			</div>
 		{:else}
@@ -68,7 +75,8 @@
 					title="Kamu menemukan sesuatu ❤️"
 					message={giftStep.message}
 					illustration="/assets/illustrations/envelope-heart.webp"
-					note="Simpan pesan ini baik-baik, lalu lanjutkan saat kamu siap."
+					illustrationAlt="Amplop kecil dengan hiasan hati"
+					note="Sebuah pesan kecil terbuka untukmu. Simpan baik-baik, ya."
 				/>
 
 				<UnlockCard

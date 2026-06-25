@@ -24,7 +24,7 @@ export function canOpenGiftStep(step: number, state: HuntState = getHuntState())
 export function canOpenFinal(state: HuntState = getHuntState()): boolean {
 	const allGiftStepsFound = giftStepIds.every((stepId) => state.foundSteps.includes(stepId));
 
-	return state.started && state.finalUnlocked && allGiftStepsFound;
+	return state.started && allGiftStepsFound;
 }
 
 export function getCurrentClueStep(state: HuntState = getHuntState()): GiftStep | null {

@@ -29,7 +29,7 @@
 </script>
 
 <AppShell title="Petunjuk Rahasia" background="paper">
-	<div class="flex min-h-[calc(100dvh-3rem)] items-center py-5">
+	<div class="page-enter flex min-h-[calc(100dvh-3rem)] items-center py-3 sm:py-5">
 		{#if !isReady || !clueStep}
 			<PaperCard class="w-full">
 				<div class="py-8 text-center" aria-live="polite">
@@ -48,6 +48,7 @@
 					title={clueStep.title}
 					clue={clueStep.clue}
 					illustration={clueStep.illustration}
+					illustrationAlt="Ilustrasi kecil yang membantu menunjukkan lokasi petunjuk"
 				/>
 
 				<div class="rounded-lg bg-white/55 p-4 text-center shadow-soft backdrop-blur-sm">

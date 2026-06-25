@@ -5,6 +5,7 @@
 		title?: string;
 		clue: string;
 		illustration?: string;
+		illustrationAlt?: string;
 		eyebrow?: string;
 	}
 
@@ -12,6 +13,7 @@
 		title = 'Sebuah Petunjuk Untukmu',
 		clue,
 		illustration,
+		illustrationAlt = '',
 		eyebrow = 'Petunjuk terbuka'
 	}: Props = $props();
 </script>
@@ -21,7 +23,7 @@
 		<div
 			class="inline-flex items-center gap-2 rounded-full bg-purple/12 px-3 py-2 text-xs font-extrabold uppercase tracking-[0.14em] text-brown"
 		>
-			<img class="size-4" src="/assets/icons/sparkle.svg" alt="" aria-hidden="true" />
+			<img class="soft-pulse size-4" src="/assets/icons/sparkle.svg" alt="" aria-hidden="true" />
 			<span>{eyebrow}</span>
 		</div>
 
@@ -30,8 +32,8 @@
 				<img
 					class="aspect-square w-full object-contain"
 					src={illustration}
-					alt=""
-					aria-hidden="true"
+					alt={illustrationAlt}
+					aria-hidden={illustrationAlt ? undefined : 'true'}
 				/>
 			</div>
 		{/if}

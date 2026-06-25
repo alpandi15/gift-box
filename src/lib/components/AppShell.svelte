@@ -68,7 +68,7 @@
 		min-height: 100dvh;
 		margin-inline: auto;
 		padding: max(1.25rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right))
-			max(1.5rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
+			calc(1.5rem + env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
 	}
 
 	@media (min-width: 390px) {

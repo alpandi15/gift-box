@@ -5,6 +5,7 @@
 		title?: string;
 		message: string;
 		illustration?: string;
+		illustrationAlt?: string;
 		note?: string;
 	}
 
@@ -12,6 +13,7 @@
 		title = 'Untuk Kamu, dengan Cinta',
 		message,
 		illustration,
+		illustrationAlt = '',
 		note
 	}: Props = $props();
 </script>
@@ -23,8 +25,8 @@
 				<img
 					class="aspect-square w-full object-contain"
 					src={illustration}
-					alt=""
-					aria-hidden="true"
+					alt={illustrationAlt}
+					aria-hidden={illustrationAlt ? undefined : 'true'}
 				/>
 			</div>
 		{/if}
@@ -33,7 +35,7 @@
 
 		<div class="relative mt-5 rounded-lg border border-peach/50 bg-white/55 px-5 py-6">
 			<img
-				class="absolute -top-3 left-1/2 size-7 -translate-x-1/2"
+				class="soft-pulse absolute -top-3 left-1/2 size-7 -translate-x-1/2"
 				src="/assets/icons/heart.svg"
 				alt=""
 				aria-hidden="true"

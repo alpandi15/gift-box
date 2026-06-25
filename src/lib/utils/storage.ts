@@ -27,26 +27,46 @@ function createInitialState(): HuntState {
 	};
 }
 
-function normalizeHuntState(value: unknown): HuntState {
+function getSequentialFoundSteps(value: unknown): GiftStepId[] {
+	if (!Array.isArray(value)) {
+		return [];
+	}
+
+	const validSteps = new Set(value.filter((step): step is GiftStepId => isGiftStepId(step)));
+	const sequentialSteps: GiftStepId[] = [];
+
+	for (const stepId of giftStepIds) {
+		if (!validSteps.has(stepId)) break;
+		sequentialSteps.push(stepId);
+	}
+
+	return sequentialSteps;
+}
+
+export function normalizeHuntState(value: unknown): HuntState {
 	if (!value || typeof value !== 'object') {
 		return createInitialState();
 	}
 
 	const candidate = value as Partial<HuntState>;
-	const currentStep =
-		typeof candidate.currentStep === 'number' && isGiftStepId(candidate.currentStep)
-			? candidate.currentStep
-			: initialHuntState.currentStep;
-	const foundSteps = Array.isArray(candidate.foundSteps)
-		? [...new Set(candidate.foundSteps.filter((step): step is GiftStepId => isGiftStepId(step)))]
-		: [];
+	const started = candidate.started === true;
+
+	if (!started) {
+		return createInitialState();
+	}
+
+	const foundSteps = getSequentialFoundSteps(candidate.foundSteps);
+	const nextStep = giftStepIds.find((stepId) => !foundSteps.includes(stepId));
+	const allGiftStepsFound = nextStep === undefined;
+	const currentStep = nextStep ?? giftStepIds[giftStepIds.length - 1];
+	const finalUnlocked = allGiftStepsFound;
 
 	return {
-		started: candidate.started === true,
+		started,
 		currentStep,
 		foundSteps,
-		finalUnlocked: candidate.finalUnlocked === true,
-		completed: candidate.completed === true
+		finalUnlocked,
+		completed: allGiftStepsFound && candidate.completed === true
 	};
 }
 

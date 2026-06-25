@@ -56,7 +56,7 @@
 				qrDefinitions.map(async (item) => {
 					const url = new URL(item.path, origin).toString();
 					const qrDataUrl = await QRCode.toDataURL(url, {
-						width: 320,
+						width: 512,
 						margin: 2,
 						errorCorrectionLevel: 'H',
 						color: {
@@ -124,7 +124,7 @@
 	/>
 </svelte:head>
 
-<main class="qr-page min-h-dvh px-4 py-6 sm:px-6 lg:px-8">
+<main class="qr-page min-h-dvh px-4 pt-5 pb-[calc(1.5rem+env(safe-area-inset-bottom))] sm:px-6 lg:px-8">
 	<div class="mx-auto max-w-6xl">
 		<header class="print-controls">
 			<PaperCard>
@@ -239,8 +239,8 @@
 								class="qr-image"
 								src={item.qrDataUrl}
 								alt={`QR menuju ${item.path}`}
-								width="320"
-								height="320"
+								width="512"
+								height="512"
 							/>
 						</div>
 
@@ -293,6 +293,7 @@
 		box-shadow: var(--gift-shadow-soft);
 		break-inside: avoid;
 		page-break-inside: avoid;
+		animation: qr-card-enter 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
 	}
 
 	.qr-card[data-paste-mode='true'] {
@@ -322,6 +323,24 @@
 		font-family: var(--gift-font-heading);
 		font-size: 1.125rem;
 		font-weight: 800;
+	}
+
+	@keyframes qr-card-enter {
+		from {
+			opacity: 0;
+			transform: translateY(0.5rem);
+		}
+
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.qr-card {
+			animation: none;
+		}
 	}
 
 	@media print {
@@ -360,6 +379,7 @@
 			border-radius: 6mm;
 			padding: 8mm;
 			box-shadow: none;
+			animation: none;
 		}
 
 		.qr-card[data-paste-mode='true'] {

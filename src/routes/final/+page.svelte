@@ -9,9 +9,13 @@
 
 	let viewState = $state<ViewState>('loading');
 	let isResetting = $state(false);
+	let guardHref = $state('/');
+	let guardLabel = $state('Kembali ke Awal');
 
 	onMount(() => {
 		const state = getHuntState();
+		guardHref = state.started ? '/clue' : '/';
+		guardLabel = state.started ? 'Kembali ke Petunjuk Saat Ini' : 'Mulai dari Awal';
 
 		if (!canOpenFinal(state)) {
 			viewState = 'guarded';
@@ -35,7 +39,7 @@
 </script>
 
 <AppShell title="Selamat Ulang Tahun, Sayang" background="final">
-	<div class="flex min-h-[calc(100dvh-3rem)] items-center py-5">
+	<div class="page-enter flex min-h-[calc(100dvh-3rem)] items-center py-3 sm:py-5">
 		{#if viewState === 'loading'}
 			<PaperCard class="w-full">
 				<div class="py-8 text-center" aria-live="polite">
@@ -53,7 +57,8 @@
 				<GuardNotice
 					title="Kejutannya masih terkunci 💌"
 					message="Masih ada petunjuk yang menunggumu. Kembali dulu dan lanjutkan perjalanan kecil ini, ya."
-					actionHref="/clue"
+					actionHref={guardHref}
+					actionLabel={guardLabel}
 				/>
 			</div>
 		{:else}
@@ -62,6 +67,7 @@
 					title="Selamat ulang tahun, sayang ❤️"
 					message="Semoga hari ini kamu merasa dicintai, dihargai, dan disayangi. Terima kasih sudah jadi rumah paling nyaman untuk aku pulang. Ini bukan sekadar hadiah, tapi cara kecilku bilang bahwa kamu sangat berarti."
 					illustration="/assets/illustrations/final-big-gift.webp"
+					illustrationAlt="Hadiah besar untuk kejutan ulang tahun"
 					note="Dengan seluruh cinta yang selalu memilihmu."
 				/>
 
@@ -74,7 +80,7 @@
 							disabled={isResetting}
 							onclick={resetMission}
 						>
-							{isResetting ? 'Mengulang misi...' : 'Reset Misi'}
+							{isResetting ? 'Mengulang...' : 'Main ulang dari awal'}
 						</Button>
 					</div>
 				</div>

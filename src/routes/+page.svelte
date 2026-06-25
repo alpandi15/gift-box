@@ -2,12 +2,13 @@
 	import { goto } from '$app/navigation';
 	import { AppShell, Button, PaperCard } from '$lib';
 	import { giftStepIds } from '$lib/data/giftSteps';
-	import { getHuntState, updateHuntState } from '$lib/utils/storage';
+	import { getHuntState, resetHuntState, updateHuntState } from '$lib/utils/storage';
 	import { onMount } from 'svelte';
 
 	let hasStarted = $state(false);
 	let isReady = $state(false);
 	let isNavigating = $state(false);
+	let isResetting = $state(false);
 
 	onMount(() => {
 		hasStarted = getHuntState().started;
@@ -28,22 +29,32 @@
 
 		await goto('/clue');
 	}
+
+	function restartMission() {
+		if (isResetting) return;
+
+		isResetting = true;
+		resetHuntState();
+		hasStarted = false;
+		isResetting = false;
+	}
 </script>
 
 <AppShell title="Birthday Gift Hunt" background="warm">
-	<div class="flex min-h-[calc(100dvh-3rem)] items-center py-6">
+	<div class="page-enter flex min-h-[calc(100dvh-3rem)] items-center py-3 sm:py-6">
 		<PaperCard class="w-full">
 			<div class="text-center">
-				<div class="mx-auto max-w-72">
+				<div class="gentle-float mx-auto max-w-56 min-[360px]:max-w-64 sm:max-w-72">
 					<img
 						class="aspect-square w-full object-contain"
 						src="/assets/illustrations/opening-room.webp"
-						alt=""
-						aria-hidden="true"
+						alt="Ilustrasi ruangan hangat dengan hadiah ulang tahun"
 					/>
 				</div>
 
-				<div class="mx-auto -mt-3 flex size-12 items-center justify-center rounded-full bg-rose/15">
+				<div
+					class="soft-pulse mx-auto -mt-3 flex size-12 items-center justify-center rounded-full bg-rose/15"
+				>
 					<img class="size-7" src="/assets/icons/heart.svg" alt="" aria-hidden="true" />
 				</div>
 
@@ -74,6 +85,19 @@
 				<p class="mt-4 text-xs leading-5 text-muted">
 					Disiapkan dengan cinta, khusus untuk hari istimewamu.
 				</p>
+
+				{#if hasStarted}
+					<div class="mt-1">
+						<Button
+							variant="ghost"
+							size="sm"
+							disabled={isResetting || isNavigating}
+							onclick={restartMission}
+						>
+							{isResetting ? 'Mengulang...' : 'Ulangi dari awal'}
+						</Button>
+					</div>
+				{/if}
 			</div>
 		</PaperCard>
 	</div>

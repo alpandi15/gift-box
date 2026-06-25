@@ -20,7 +20,7 @@
 <PaperCard class="border-purple/20 bg-cream-soft">
 	<div class="text-center">
 		<div
-			class="mx-auto flex size-16 items-center justify-center rounded-full bg-purple/15 shadow-soft"
+			class="gentle-float mx-auto flex size-16 items-center justify-center rounded-full bg-purple/15 shadow-soft"
 		>
 			<img class="size-9" src="/assets/icons/unlock.svg" alt="" aria-hidden="true" />
 		</div>
