@@ -1,46 +1,26 @@
 <script lang="ts">
 	import { Button, PaperCard } from '$lib';
+	import { giftSteps } from '$lib/data/giftSteps';
 	import QRCode from 'qrcode';
 	import { onMount } from 'svelte';
 
 	type QrItemDefinition = {
 		id: string;
 		label: string;
-		path: string;
+		qrToken: string;
 		note: string;
 	};
 
 	type QrItem = QrItemDefinition & {
-		url: string;
 		qrDataUrl: string;
 	};
 
-	const qrDefinitions: QrItemDefinition[] = [
-		{
-			id: 'gift-a',
-			label: 'QR Giftbox A',
-			path: '/gift/1',
-			note: 'Tempel di giftbox pertama.'
-		},
-		{
-			id: 'gift-b',
-			label: 'QR Giftbox B',
-			path: '/gift/2',
-			note: 'Tempel di giftbox kedua.'
-		},
-		{
-			id: 'gift-c',
-			label: 'QR Giftbox C',
-			path: '/gift/3',
-			note: 'Tempel di giftbox ketiga.'
-		},
-		{
-			id: 'final',
-			label: 'QR Final',
-			path: '/final',
-			note: 'Tempel di big gift atau lokasi final.'
-		}
-	];
+	const qrDefinitions: QrItemDefinition[] = giftSteps.map((step, index) => ({
+		id: `gift-${String.fromCharCode(97 + index)}`,
+		label: `QR Giftbox ${String.fromCharCode(65 + index)}`,
+		qrToken: step.qrToken,
+		note: `Tempel di giftbox ${String.fromCharCode(65 + index)}.`
+	}));
 
 	let qrItems = $state<QrItem[]>([]);
 	let isLoading = $state(true);
@@ -50,12 +30,9 @@
 
 	onMount(async () => {
 		try {
-			const origin = window.location.origin;
-
 			qrItems = await Promise.all(
 				qrDefinitions.map(async (item) => {
-					const url = new URL(item.path, origin).toString();
-					const qrDataUrl = await QRCode.toDataURL(url, {
+					const qrDataUrl = await QRCode.toDataURL(item.qrToken, {
 						width: 512,
 						margin: 2,
 						errorCorrectionLevel: 'H',
@@ -65,7 +42,7 @@
 						}
 					});
 
-					return { ...item, url, qrDataUrl };
+					return { ...item, qrDataUrl };
 				})
 			);
 		} catch {
@@ -76,14 +53,14 @@
 		}
 	});
 
-	async function copyUrl(item: QrItem) {
+	async function copyToken(item: QrItem) {
 		try {
-			await navigator.clipboard.writeText(item.url);
-			setCopyFeedback(item.id, 'URL disalin');
+			await navigator.clipboard.writeText(item.qrToken);
+			setCopyFeedback(item.id, 'Token disalin');
 		} catch {
 			try {
 				const textarea = document.createElement('textarea');
-				textarea.value = item.url;
+				textarea.value = item.qrToken;
 				textarea.style.position = 'fixed';
 				textarea.style.opacity = '0';
 				document.body.appendChild(textarea);
@@ -93,10 +70,10 @@
 
 				setCopyFeedback(
 					item.id,
-					copied ? 'URL disalin' : 'Salin URL secara manual dari teks di atas'
+					copied ? 'Token disalin' : 'Salin token secara manual dari teks di atas'
 				);
 			} catch {
-				setCopyFeedback(item.id, 'Salin URL secara manual dari teks di atas');
+				setCopyFeedback(item.id, 'Salin token secara manual dari teks di atas');
 			}
 		}
 	}
@@ -138,8 +115,8 @@
 						</div>
 						<h1 class="mt-4 text-3xl font-extrabold text-brown">QR Gift Hunt</h1>
 						<p class="mt-3 max-w-2xl leading-7 text-muted">
-							Periksa URL, aktifkan mode tempel bila label perlu disembunyikan, lalu cetak QR
-							untuk ditempel pada hadiah fisik.
+							QR berisi token internal dan hanya dibaca oleh scanner di dalam web. Aktifkan
+							mode tempel, lalu cetak untuk hadiah fisik.
 						</p>
 					</div>
 
@@ -174,7 +151,7 @@
 					<div>
 						<p class="font-bold text-brown">Mode tempel ke giftbox</p>
 						<p class="mt-1 text-sm leading-5 text-muted">
-							Sembunyikan label, URL, dan catatan saat preview maupun print.
+							Sembunyikan label, token, dan catatan saat preview maupun print.
 						</p>
 					</div>
 					<button
@@ -205,7 +182,7 @@
 					alt=""
 					aria-hidden="true"
 				/>
-				<p class="mt-4 font-semibold text-muted">Membuat QR dari domain saat ini...</p>
+				<p class="mt-4 font-semibold text-muted">Membuat QR dari token internal...</p>
 			</div>
 		{:else if generationError}
 			<div
@@ -238,7 +215,7 @@
 							<img
 								class="qr-image"
 								src={item.qrDataUrl}
-								alt={`QR menuju ${item.path}`}
+								alt={`QR internal ${item.label}`}
 								width="512"
 								height="512"
 							/>
@@ -249,7 +226,7 @@
 						{#if !pasteMode}
 							<div class="internal-details mt-4 w-full">
 								<p class="break-all rounded-md bg-cream px-3 py-2 font-mono text-xs leading-5 text-ink">
-									{item.url}
+									{item.qrToken}
 								</p>
 								<p class="mt-3 text-sm leading-6 text-muted">{item.note}</p>
 
@@ -258,9 +235,9 @@
 										variant="secondary"
 										size="sm"
 										fullWidth
-										onclick={() => copyUrl(item)}
+										onclick={() => copyToken(item)}
 									>
-										{copyFeedback[item.id] ?? 'Copy URL'}
+										{copyFeedback[item.id] ?? 'Copy Token'}
 									</Button>
 								</div>
 							</div>

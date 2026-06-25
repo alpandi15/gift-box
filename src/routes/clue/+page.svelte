@@ -8,7 +8,6 @@
 
 	let clueStep = $state<GiftStep | null>(null);
 	let isReady = $state(false);
-	let isSearching = $state(false);
 
 	onMount(async () => {
 		const state = getHuntState();
@@ -52,11 +51,17 @@
 				/>
 
 				<div class="rounded-lg bg-white/55 p-4 text-center shadow-soft backdrop-blur-sm">
-					<Button fullWidth onclick={() => (isSearching = true)}>
-						{isSearching ? 'Selamat Mencari ❤️' : 'Aku Siap Mencari'}
+					<Button href="/scan" fullWidth>
+						<img
+							class="size-5 brightness-0 invert"
+							src="/assets/icons/qr.svg"
+							alt=""
+							aria-hidden="true"
+						/>
+						Scan QR yang Kamu Temukan
 					</Button>
 					<p class="mt-3 text-sm leading-6 text-muted">
-						Cari petunjuknya di rumah, lalu scan QR yang kamu temukan.
+						Cari hadiah tersembunyinya, lalu kembali ke sini untuk membuka kamera.
 					</p>
 				</div>
 			</div>

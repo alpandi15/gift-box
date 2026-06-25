@@ -8,6 +8,7 @@ export interface GiftStep {
 	clue: string;
 	message: string;
 	illustration: string;
+	qrToken: string;
 	nextStep: GiftStepId | null;
 	isFinalTrigger: boolean;
 }
@@ -20,6 +21,7 @@ export const giftSteps = [
 		message:
 			'Terima kasih sudah membuat setiap waktu sederhana terasa hangat. Senyummu selalu jadi tempat pulang favoritku.',
 		illustration: '/assets/illustrations/sofa-corner.webp',
+		qrToken: 'BDAY-GIFT-A',
 		nextStep: 2,
 		isFinalTrigger: false
 	},
@@ -30,6 +32,7 @@ export const giftSteps = [
 		message:
 			'Bersamamu, perjalanan kecil sekalipun selalu terasa istimewa. Semoga kita terus punya banyak cerita untuk dibawa pulang.',
 		illustration: '/assets/illustrations/bag-and-cup.webp',
+		qrToken: 'BDAY-GIFT-B',
 		nextStep: 3,
 		isFinalTrigger: false
 	},
@@ -40,6 +43,7 @@ export const giftSteps = [
 		message:
 			'Orang cantik di depan cermin itu adalah alasan banyak hariku terasa lebih cerah. Satu kejutan terakhir sedang menunggumu.',
 		illustration: '/assets/illustrations/mirror-table.webp',
+		qrToken: 'BDAY-GIFT-C',
 		nextStep: null,
 		isFinalTrigger: true
 	}
@@ -51,4 +55,13 @@ export function isGiftStepId(value: unknown): value is GiftStepId {
 
 export function getGiftStep(stepId: GiftStepId): GiftStep {
 	return giftSteps.find((step) => step.id === stepId) as GiftStep;
+}
+
+export function normalizeQrToken(value: string): string {
+	return value.trim().toUpperCase();
+}
+
+export function getGiftStepByQrToken(qrToken: string): GiftStep | null {
+	const normalizedToken = normalizeQrToken(qrToken);
+	return giftSteps.find((step) => step.qrToken === normalizedToken) ?? null;
 }

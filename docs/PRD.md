@@ -2,117 +2,99 @@
 
 ## 1. Overview
 
-Birthday Gift Hunt adalah mini web game romantis berbasis SvelteKit untuk ulang tahun istri. Game ini berbentuk treasure hunt di rumah, di mana pemain mengikuti petunjuk satu per satu, mencari giftbox fisik, scan QR code, membaca pesan, lalu membuka petunjuk berikutnya sampai mencapai hadiah utama.
+Birthday Gift Hunt adalah mini web game romantis berbasis SvelteKit untuk ulang tahun istri. Pemain mengikuti petunjuk satu per satu, mencari giftbox fisik, lalu memindai QR dari kamera di dalam web untuk membuka pesan dan petunjuk berikutnya.
 
-Project ini tidak menggunakan backend, database, login, atau API. Semua progress disimpan di browser menggunakan localStorage.
+Project ini frontend-only. Tidak ada backend, database, login, atau API. Semua progress disimpan di browser menggunakan localStorage.
 
 ## 2. Goal
 
-Membuat pengalaman ulang tahun yang personal, romantis, ringan, dan mudah dimainkan dari HP.
+Membuat pengalaman ulang tahun yang personal, romantis, ringan, dan nyaman dimainkan dari HP.
 
-Tujuan utama:
+Alur utama:
 
-* Pemain membuka web dari HP.
-* Pemain membaca opening message.
-* Pemain mendapat clue pertama.
-* Pemain mencari giftbox fisik.
-* Pemain scan QR pada giftbox.
-* Web menampilkan pesan romantis.
-* Web membuka clue berikutnya.
-* Game selesai saat pemain menemukan hadiah utama.
+1. Pemain membuka web dan memulai misi.
+2. Web menampilkan satu clue aktif.
+3. Pemain mencari giftbox fisik.
+4. Pemain membuka scanner dari web dan memindai QR.
+5. Token QR divalidasi terhadap clue aktif.
+6. Web menampilkan pesan romantis dan membuka clue berikutnya.
+7. Setelah semua gift ditemukan, halaman final terbuka.
 
 ## 3. Important Design Rule
 
-Jumlah giftbox tidak boleh ditampilkan di awal.
+Jumlah giftbox tidak boleh ditampilkan dalam gameplay.
 
-UI tidak boleh menampilkan:
+UI gameplay tidak boleh menampilkan:
 
 * Total giftbox.
 * Progress angka seperti 1/3 atau 2/3.
-* Map lengkap dari awal.
-* Semua step sekaligus.
+* Map lengkap.
+* Semua clue sekaligus.
+* Token QR.
 
 Game harus terasa seperti misi rahasia yang terbuka perlahan.
 
-## 4. Core Experience
-
-Alur pengalaman pemain:
-
-1. Opening screen.
-2. Klik Mulai Misi.
-3. Tampil clue pertama.
-4. Pemain mencari giftbox.
-5. Pemain scan QR.
-6. Tampil pesan romantis.
-7. Pemain klik buka petunjuk berikutnya.
-8. Proses berulang sampai final.
-9. Pemain menemukan big gift.
-10. Tampil final birthday message.
-
-## 5. Pages
+## 4. Pages
 
 ### `/`
 
-Opening page.
-
-Konten:
-
-* Sapaan ulang tahun.
-* Pesan singkat bahwa ada misi kecil.
-* Tidak menyebut jumlah hadiah.
-* Button Mulai Misi.
-
-Action:
-
-* Set `started = true` di localStorage.
-* Redirect ke `/clue`.
+Opening page dengan pesan ulang tahun dan tombol mulai atau lanjutkan misi.
 
 ### `/clue`
 
-Current clue page.
+Menampilkan clue aktif berdasarkan `currentStep`.
 
-Konten:
+Action utama:
 
-* Clue aktif berdasarkan `currentStep`.
-* Ilustrasi sesuai clue.
-* Button “Aku Siap Mencari”.
+* Tombol “Scan QR yang Kamu Temukan”.
+* Redirect ke `/scan`.
 
-Tidak boleh menampilkan jumlah step.
+### `/scan`
 
-### `/gift/[step]`
-
-Halaman yang dibuka dari QR giftbox.
+Halaman scanner QR internal.
 
 Fungsi:
 
-* Validasi apakah step boleh dibuka.
-* Jika step valid, tandai gift sebagai ditemukan.
-* Tampilkan pesan romantis untuk step tersebut.
-* Tampilkan button untuk membuka petunjuk berikutnya.
+* Membuka kamera belakang jika tersedia.
+* Membaca token dari QR.
+* Memvalidasi token terhadap `currentStep`.
+* Menolak token tidak dikenal, token lama, dan token yang belum waktunya.
+* Jika valid, update progress dan redirect ke `/message`.
 
-Jika step belum waktunya, tampilkan guard notice:
+Kamera harus digunakan melalui HTTPS pada production. `localhost` tetap dapat digunakan untuk development.
 
-“Eits, belum waktunya membuka bagian ini 😄 Balik dulu ke petunjuk sebelumnya ya.”
+### `/message`
+
+Menampilkan pesan romantis dari step yang baru berhasil dipindai.
+
+Action:
+
+* Buka clue berikutnya melalui `/clue`.
+* Jika gift terakhir ditemukan, lanjut ke `/final`.
 
 ### `/final`
 
-Halaman final gift.
-
-Fungsi:
-
-* Hanya bisa dibuka setelah semua step gift selesai.
-* Jika belum valid, tampilkan guard notice.
-* Jika valid, tampilkan final message ulang tahun.
+Hanya terbuka setelah seluruh gift step ditemukan dan `finalUnlocked` aktif.
 
 ### `/qr-print`
 
-Halaman khusus untuk generate/preview daftar QR yang akan dicetak.
+Halaman owner/developer untuk membuat dan mencetak QR token. Halaman ini bukan bagian dari navigasi gameplay.
 
-Halaman ini hanya untuk owner/developer, bukan bagian dari gameplay utama.
+## 5. QR Content
+
+QR gameplay tidak berisi URL.
+
+Token internal:
+
+* `BDAY-GIFT-A`
+* `BDAY-GIFT-B`
+* `BDAY-GIFT-C`
+
+Token disimpan di data step melalui field `qrToken`.
 
 ## 6. LocalStorage State
 
-Key localStorage:
+Key:
 
 `birthdayGiftHunt`
 
@@ -123,6 +105,7 @@ Format:
   "started": false,
   "currentStep": 1,
   "foundSteps": [],
+  "lastUnlockedMessageStep": null,
   "finalUnlocked": false,
   "completed": false
 }
@@ -130,18 +113,17 @@ Format:
 
 ## 7. Step Rules
 
-* Step pertama terbuka setelah pemain klik Mulai Misi.
-* `/gift/1` hanya valid jika game sudah started dan currentStep adalah 1.
-* `/gift/2` hanya valid jika step 1 sudah ditemukan.
-* `/gift/3` hanya valid jika step 2 sudah ditemukan.
-* `/final` hanya valid jika semua gift step sudah ditemukan.
-* Jika user scan QR terlalu cepat, jangan unlock step tersebut.
-* Jika user refresh, progress tetap lanjut dari localStorage.
-* Harus ada tombol reset progress untuk developer/testing, tapi jangan terlalu mencolok di UI utama.
+* Step pertama terbuka setelah pemain memulai misi.
+* Token valid hanya jika sesuai dengan `currentStep`.
+* Token step berikutnya tidak boleh membuka progress lebih awal.
+* Token yang sudah ditemukan tidak boleh mengubah progress atau memundurkan `currentStep`.
+* Setelah scan valid, step ditambahkan ke `foundSteps` tanpa duplikasi.
+* `lastUnlockedMessageStep` menunjuk pesan terakhir yang berhasil dibuka.
+* Gift terakhir mengaktifkan `finalUnlocked`.
+* Refresh tidak boleh merusak progress.
+* State parsial atau corrupt harus kembali ke kondisi aman.
 
 ## 8. Visual Direction
-
-Style:
 
 * Romantic
 * Warm
@@ -152,41 +134,24 @@ Style:
 * Hand-drawn illustration
 * Cozy home feeling
 
-Color direction:
+Warna utama:
 
 * Cream
 * Peach
 * Soft pink
 * Warm brown
-* Muted purple for secret/final clue
+* Muted purple
 
-## 9. Assets
-
-Assets berada di folder:
-
-```txt
-static/assets/
-├── icons/
-├── illustrations/
-├── backgrounds/
-├── prints/
-└── design-tokens.css
-```
-
-Gunakan SVG untuk icon dan WebP/PNG untuk ilustrasi/background.
-
-## 10. Technical Stack
+## 9. Technical Stack
 
 * SvelteKit
 * TypeScript
 * Tailwind CSS
 * localStorage
-* qrcode package untuk halaman QR print
-* Deploy ke Vercel atau Netlify
+* `@zxing/browser` untuk scanner kamera
+* `qrcode` untuk QR print
 
-## 11. Non Goals
-
-Project ini tidak membutuhkan:
+## 10. Non Goals
 
 * Backend
 * Database
@@ -195,19 +160,16 @@ Project ini tidak membutuhkan:
 * API
 * Payment
 * Analytics
-* Multi user
+* Multi-user
 
-## 12. Acceptance Criteria
+## 11. Acceptance Criteria
 
-Game dianggap selesai jika:
-
-* Opening bisa dimulai.
-* Clue pertama muncul.
-* QR giftbox membuka halaman pesan sesuai step.
-* Step tidak bisa dilompati.
-* Progress tetap aman saat refresh.
-* Final page hanya bisa dibuka setelah step sebelumnya selesai.
-* Tampilan mobile nyaman.
-* Semua asset tampil dengan benar.
-* QR print page bisa menampilkan QR untuk setiap step.
-* Project bisa dideploy dan dimainkan dari HP.
+* Opening dan clue berjalan dari HP.
+* Scanner membuka kamera dari dalam web.
+* Token yang benar membuka pesan sesuai step.
+* Token salah atau terlalu cepat ditolak dengan pesan ramah.
+* Progress tidak dapat dilompati.
+* Refresh aman pada clue, scan, message, dan final.
+* Final hanya terbuka setelah seluruh gift ditemukan.
+* QR print menghasilkan QR token yang dapat dipindai.
+* Gameplay tidak menampilkan jumlah gift atau token.

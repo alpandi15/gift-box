@@ -6,6 +6,7 @@ export interface HuntState {
 	started: boolean;
 	currentStep: GiftStepId;
 	foundSteps: GiftStepId[];
+	lastUnlockedMessageStep: GiftStepId | null;
 	finalUnlocked: boolean;
 	completed: boolean;
 }
@@ -14,6 +15,7 @@ export const initialHuntState: HuntState = {
 	started: false,
 	currentStep: giftStepIds[0],
 	foundSteps: [],
+	lastUnlockedMessageStep: null,
 	finalUnlocked: false,
 	completed: false
 };
@@ -60,11 +62,18 @@ export function normalizeHuntState(value: unknown): HuntState {
 	const allGiftStepsFound = nextStep === undefined;
 	const currentStep = nextStep ?? giftStepIds[giftStepIds.length - 1];
 	const finalUnlocked = allGiftStepsFound;
+	const requestedMessageStep = candidate.lastUnlockedMessageStep;
+	const lastFoundStep = foundSteps.at(-1) ?? null;
+	const lastUnlockedMessageStep =
+		isGiftStepId(requestedMessageStep) && foundSteps.includes(requestedMessageStep)
+			? requestedMessageStep
+			: lastFoundStep;
 
 	return {
 		started,
 		currentStep,
 		foundSteps,
+		lastUnlockedMessageStep,
 		finalUnlocked,
 		completed: allGiftStepsFound && candidate.completed === true
 	};

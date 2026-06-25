@@ -1,42 +1,51 @@
-# sv
+# Birthday Gift Hunt
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+Frontend-only mobile treasure hunt berbasis SvelteKit. Progress disimpan di localStorage dan QR dipindai melalui kamera di dalam web.
 
-## Creating a project
+## Development
 
-If you're seeing this, you've probably already done this step. Congrats!
-
-```sh
-# create a new project
-npx sv create my-app
-```
-
-To recreate this project with the same configuration:
-
-```sh
-# recreate this project
-npx sv@0.16.1 create --template minimal --types ts --install npm gift-box
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```sh
+```bash
+npm install
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
 
-## Building
+Buka `http://localhost:5173`.
 
-To create a production version of your app:
+Route utama:
 
-```sh
+* `/` — opening.
+* `/clue` — clue aktif.
+* `/scan` — scanner QR internal.
+* `/message` — pesan terakhir yang terbuka.
+* `/final` — pesan final.
+* `/qr-print` — halaman internal untuk mencetak QR token.
+
+## QR Tokens
+
+QR giftbox berisi plain text token, bukan URL:
+
+```text
+BDAY-GIFT-A
+BDAY-GIFT-B
+BDAY-GIFT-C
+```
+
+Gunakan `/qr-print` untuk membuat dan mencetak QR.
+
+## Camera Requirements
+
+Browser hanya mengizinkan kamera pada secure context:
+
+* `localhost` untuk development.
+* HTTPS untuk production.
+
+Saat menguji dari HP di jaringan lokal menggunakan alamat IP HTTP, kamera mungkin ditolak oleh browser. Gunakan HTTPS tunnel atau deployment preview.
+
+## Validation
+
+```bash
+npm run check
 npm run build
 ```
 
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+Tidak ada backend, database, login, atau API.
