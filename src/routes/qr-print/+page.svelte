@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button, PaperCard } from '$lib';
+	import { Button, PaperCard, TapeLabel } from '$lib';
 	import { giftSteps } from '$lib/data/giftSteps';
 	import QRCode from 'qrcode';
 	import { onMount } from 'svelte';
@@ -17,7 +17,7 @@
 
 	const qrDefinitions: QrItemDefinition[] = giftSteps.map((step, index) => ({
 		id: `gift-${String.fromCharCode(97 + index)}`,
-		label: `QR Giftbox ${String.fromCharCode(65 + index)}`,
+		label: `Giftbox ${String.fromCharCode(65 + index)}`,
 		qrToken: step.qrToken,
 		note: `Tempel di giftbox ${String.fromCharCode(65 + index)}.`
 	}));
@@ -25,7 +25,8 @@
 	let qrItems = $state<QrItem[]>([]);
 	let isLoading = $state(true);
 	let generationError = $state('');
-	let pasteMode = $state(false);
+	let pasteMode = $state(true);
+	let isDownloading = $state(false);
 	let copyFeedback = $state<Record<string, string>>({});
 
 	onMount(async () => {
@@ -34,7 +35,7 @@
 				qrDefinitions.map(async (item) => {
 					const qrDataUrl = await QRCode.toDataURL(item.qrToken, {
 						width: 512,
-						margin: 2,
+						margin: 1,
 						errorCorrectionLevel: 'H',
 						color: {
 							dark: '#3A2520',
@@ -58,23 +59,7 @@
 			await navigator.clipboard.writeText(item.qrToken);
 			setCopyFeedback(item.id, 'Token disalin');
 		} catch {
-			try {
-				const textarea = document.createElement('textarea');
-				textarea.value = item.qrToken;
-				textarea.style.position = 'fixed';
-				textarea.style.opacity = '0';
-				document.body.appendChild(textarea);
-				textarea.select();
-				const copied = document.execCommand('copy');
-				textarea.remove();
-
-				setCopyFeedback(
-					item.id,
-					copied ? 'Token disalin' : 'Salin token secara manual dari teks di atas'
-				);
-			} catch {
-				setCopyFeedback(item.id, 'Salin token secara manual dari teks di atas');
-			}
+			setCopyFeedback(item.id, 'Salin token secara manual');
 		}
 	}
 
@@ -91,48 +76,106 @@
 	function printQrCodes() {
 		window.print();
 	}
+
+	async function downloadPdf() {
+		if (!qrItems.length || isDownloading) return;
+
+		isDownloading = true;
+
+		try {
+			const { jsPDF } = await import('jspdf');
+			const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+
+			const pageW = 210;
+			const pageH = 297;
+			const cardW = 85.6; // ID card / KTP width
+			const cardH = 54; // ID card / KTP height
+			const gapX = 8;
+			const gapY = 10;
+			const cols = 2;
+			const rows = Math.ceil(qrItems.length / cols);
+
+			const gridW = cols * cardW + (cols - 1) * gapX;
+			const startX = (pageW - gridW) / 2;
+			const gridH = rows * cardH + (rows - 1) * gapY;
+			const startY = Math.max(16, (pageH - gridH) / 2);
+
+			qrItems.forEach((item, index) => {
+				const col = index % cols;
+				const row = Math.floor(index / cols);
+				const x = startX + col * (cardW + gapX);
+				const y = startY + row * (cardH + gapY);
+
+				// Dashed cut border
+				doc.setDrawColor(185, 153, 114);
+				doc.setLineWidth(0.4);
+				doc.setLineDashPattern([1.6, 1.2], 0);
+				doc.roundedRect(x, y, cardW, cardH, 3, 3);
+				doc.setLineDashPattern([], 0);
+
+				// QR on the left
+				const qr = 40;
+				const qx = x + 6;
+				const qy = y + (cardH - qr) / 2;
+				doc.addImage(item.qrDataUrl, 'PNG', qx, qy, qr, qr);
+
+				// Text on the right
+				const tx = qx + qr + 6;
+				doc.setTextColor(107, 63, 42);
+				doc.setFont('helvetica', 'bold');
+				doc.setFontSize(15);
+				doc.text('Scan aku!', tx, y + 16);
+
+				doc.setFont('helvetica', 'normal');
+				doc.setFontSize(8.5);
+				doc.setTextColor(140, 111, 102);
+				doc.text('Buka kamera dari', tx, y + 24);
+				doc.text('web, arahkan ke sini.', tx, y + 28.5);
+
+				doc.setFont('courier', 'bold');
+				doc.setFontSize(8);
+				doc.setTextColor(58, 37, 32);
+				doc.text(`Kode: ${item.qrToken}`, tx, y + 40);
+			});
+
+			doc.save('qr-gift-hunt.pdf');
+		} catch {
+			generationError = 'PDF belum berhasil dibuat. Coba lagi, atau gunakan tombol Print.';
+		} finally {
+			isDownloading = false;
+		}
+	}
 </script>
 
 <svelte:head>
 	<title>QR Print — Birthday Gift Hunt</title>
 	<meta
 		name="description"
-		content="Halaman internal untuk membuat dan mencetak QR Birthday Gift Hunt."
+		content="Halaman internal untuk membuat, mengunduh, dan mencetak QR Birthday Gift Hunt."
 	/>
 </svelte:head>
 
-<main class="qr-page min-h-dvh px-4 pt-5 pb-[calc(1.5rem+env(safe-area-inset-bottom))] sm:px-6 lg:px-8">
-	<div class="mx-auto max-w-6xl">
+<main class="qr-page min-h-dvh px-4 pt-6 pb-[calc(2rem+env(safe-area-inset-bottom))] sm:px-6 lg:px-8">
+	<div class="mx-auto max-w-5xl">
 		<header class="print-controls">
-			<PaperCard>
+			<PaperCard torn tilt={-0.5}>
 				<div class="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
 					<div>
-						<div
-							class="inline-flex items-center gap-2 rounded-full bg-purple/12 px-3 py-2 text-xs font-extrabold uppercase tracking-[0.14em] text-brown"
-						>
-							<img class="size-4" src="/assets/icons/qr.svg" alt="" aria-hidden="true" />
-							<span>Owner tools</span>
-						</div>
-						<h1 class="mt-4 text-3xl font-extrabold text-brown">QR Gift Hunt</h1>
-						<p class="mt-3 max-w-2xl leading-7 text-muted">
-							QR berisi token internal dan hanya dibaca oleh scanner di dalam web. Aktifkan
-							mode tempel, lalu cetak untuk hadiah fisik.
+						<TapeLabel text="Owner tools" color="purple" icon="/assets/icons/qr.svg" />
+						<h1 class="font-script mt-3 text-4xl font-bold leading-tight text-brown sm:text-5xl">
+							QR Gift Hunt
+						</h1>
+						<p class="mt-2 max-w-2xl leading-7 text-muted">
+							Setiap kartu seukuran KTP, siap dicetak di kertas A4 lalu digunting dan ditempel di
+							hadiah. Ada kode kecil di tiap kartu untuk cadangan kalau kamera tidak bisa scan.
 						</p>
 					</div>
 
 					<div class="flex flex-col gap-3 sm:flex-row lg:flex-col">
 						<Button
-							variant="secondary"
 							fullWidth
-							disabled={isLoading || qrItems.length === 0}
-							onclick={() => (pasteMode = !pasteMode)}
-						>
-							{pasteMode ? 'Tampilkan Label Internal' : 'Mode Tempel ke Giftbox'}
-						</Button>
-						<Button
-							fullWidth
-							disabled={isLoading || qrItems.length === 0}
-							onclick={printQrCodes}
+							disabled={isLoading || qrItems.length === 0 || isDownloading}
+							onclick={downloadPdf}
 						>
 							<img
 								class="size-5 brightness-0 invert"
@@ -140,7 +183,15 @@
 								alt=""
 								aria-hidden="true"
 							/>
-							Print QR
+							{isDownloading ? 'Menyiapkan PDF...' : 'Download PDF (A4)'}
+						</Button>
+						<Button
+							variant="secondary"
+							fullWidth
+							disabled={isLoading || qrItems.length === 0}
+							onclick={printQrCodes}
+						>
+							Print Langsung
 						</Button>
 					</div>
 				</div>
@@ -149,25 +200,25 @@
 					class="mt-5 flex items-center justify-between gap-4 rounded-lg border border-peach/40 bg-white/55 p-4"
 				>
 					<div>
-						<p class="font-bold text-brown">Mode tempel ke giftbox</p>
+						<p class="font-bold text-brown">Mode tempel ke hadiah</p>
 						<p class="mt-1 text-sm leading-5 text-muted">
-							Sembunyikan label, token, dan catatan saat preview maupun print.
+							Sembunyikan label internal & tombol. Kode kecil tetap tampil untuk cadangan input manual.
 						</p>
 					</div>
 					<button
 						type="button"
 						class="relative h-8 w-14 shrink-0 rounded-full transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose"
 						class:bg-rose={pasteMode}
-						class:bg-tan={false === pasteMode}
+						class:bg-tan={!pasteMode}
 						role="switch"
 						aria-checked={pasteMode}
-						aria-label="Mode tempel ke giftbox"
+						aria-label="Mode tempel ke hadiah"
 						onclick={() => (pasteMode = !pasteMode)}
 					>
 						<span
 							class="absolute top-1 size-6 rounded-full bg-white shadow-soft transition-transform"
 							class:translate-x-7={pasteMode}
-							class:translate-x-1={false === pasteMode}
+							class:translate-x-1={!pasteMode}
 						></span>
 					</button>
 				</div>
@@ -176,12 +227,7 @@
 
 		{#if isLoading}
 			<div class="mt-8 rounded-xl bg-white/70 p-10 text-center shadow-soft" aria-live="polite">
-				<img
-					class="mx-auto size-10 animate-pulse"
-					src="/assets/icons/qr.svg"
-					alt=""
-					aria-hidden="true"
-				/>
+				<img class="mx-auto size-10 animate-pulse" src="/assets/icons/qr.svg" alt="" aria-hidden="true" />
 				<p class="mt-4 font-semibold text-muted">Membuat QR dari token internal...</p>
 			</div>
 		{:else if generationError}
@@ -189,62 +235,48 @@
 				class="mt-8 rounded-xl border border-rose/30 bg-white/80 p-8 text-center shadow-soft"
 				role="alert"
 			>
-				<img
-					class="mx-auto size-9"
-					src="/assets/icons/lock.svg"
-					alt=""
-					aria-hidden="true"
-				/>
-				<h2 class="mt-4 text-xl font-extrabold text-brown">QR belum bisa ditampilkan</h2>
+				<img class="mx-auto size-9" src="/assets/icons/lock.svg" alt="" aria-hidden="true" />
+				<h2 class="mt-4 text-xl font-extrabold text-brown">Ada yang belum beres</h2>
 				<p class="mt-2 leading-7 text-muted">{generationError}</p>
 			</div>
 		{:else}
-			<section class="qr-grid mt-8 grid gap-6 md:grid-cols-2" aria-label="Daftar QR siap print">
+			<section class="qr-grid" aria-label="Daftar QR siap cetak">
 				{#each qrItems as item (item.id)}
 					<article class="qr-card" data-paste-mode={pasteMode}>
-						{#if !pasteMode}
-							<div class="internal-details">
-								<p class="text-xs font-extrabold uppercase tracking-[0.14em] text-rose-dark">
-									Internal
-								</p>
-								<h2 class="mt-1 text-xl font-extrabold text-brown">{item.label}</h2>
-							</div>
-						{/if}
-
-						<div class="qr-image-wrap">
+						<div class="qr-card__qr">
 							<img
 								class="qr-image"
 								src={item.qrDataUrl}
-								alt={`QR internal ${item.label}`}
+								alt={`QR ${item.label}`}
 								width="512"
 								height="512"
 							/>
 						</div>
 
-						<p class="scan-label">Scan aku ❤️</p>
+						<div class="qr-card__body">
+							{#if !pasteMode}
+								<p class="qr-card__internal">{item.label}</p>
+							{/if}
+							<p class="qr-card__scan font-script">Scan aku ❤️</p>
+							<p class="qr-card__hint">Buka kamera dari web, lalu arahkan ke sini.</p>
+							<p class="qr-card__code">Kode: <span>{item.qrToken}</span></p>
 
-						{#if !pasteMode}
-							<div class="internal-details mt-4 w-full">
-								<p class="break-all rounded-md bg-cream px-3 py-2 text-xs leading-5 text-ink">
-									{item.qrToken}
-								</p>
-								<p class="mt-3 text-sm leading-6 text-muted">{item.note}</p>
-
-								<div class="copy-control mt-4">
-									<Button
-										variant="secondary"
-										size="sm"
-										fullWidth
-										onclick={() => copyToken(item)}
-									>
+							{#if !pasteMode}
+								<div class="copy-control mt-2">
+									<Button variant="secondary" size="sm" onclick={() => copyToken(item)}>
 										{copyFeedback[item.id] ?? 'Copy Token'}
 									</Button>
 								</div>
-							</div>
-						{/if}
+							{/if}
+						</div>
 					</article>
 				{/each}
 			</section>
+
+			<p class="print-controls mt-6 text-center text-sm text-muted">
+				Tip: saat Print, pilih ukuran kertas <strong>A4</strong> dan skala <strong>100%</strong> agar
+				kartu benar-benar seukuran KTP.
+			</p>
 		{/if}
 	</div>
 </main>
@@ -257,55 +289,95 @@
 		background-size: cover;
 	}
 
+	.qr-page :global(h1),
+	.qr-page :global(h2),
+	.qr-page :global(h3) {
+		font-family: var(--font-family-hand);
+	}
+
+	.qr-page :global(.font-script) {
+		font-family: var(--font-family-script);
+	}
+
+	.qr-grid {
+		display: grid;
+		gap: 1.25rem;
+		margin-top: 2rem;
+		grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
+	}
+
+	/* On-screen card keeps the ID-card (KTP) proportions: 85.6 x 54 mm */
 	.qr-card {
 		display: flex;
-		min-width: 0;
-		flex-direction: column;
 		align-items: center;
+		gap: 0.9rem;
+		aspect-ratio: 85.6 / 54;
+		padding: 0.9rem;
 		border: 2px dashed var(--gift-color-tan);
-		border-radius: var(--gift-radius-lg);
+		border-radius: var(--gift-radius-md);
 		background: var(--gift-color-white);
-		padding: 1.5rem;
-		text-align: center;
 		box-shadow: var(--gift-shadow-soft);
 		break-inside: avoid;
 		page-break-inside: avoid;
 		animation: qr-card-enter 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
 	}
 
-	.qr-card[data-paste-mode='true'] {
-		justify-content: center;
-		min-height: 23rem;
-	}
-
-	.qr-image-wrap {
+	.qr-card__qr {
 		display: grid;
-		width: min(100%, 17.5rem);
+		height: 100%;
 		aspect-ratio: 1;
-		margin-top: 1rem;
+		flex-shrink: 0;
 		place-items: center;
-		border-radius: var(--gift-radius-md);
+		border-radius: var(--gift-radius-sm);
 		background: var(--gift-color-white);
 	}
 
 	.qr-image {
-		width: min(100%, 15rem);
-		height: auto;
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
 		image-rendering: auto;
 	}
 
-	.scan-label {
-		margin-top: 0.75rem;
-		color: var(--gift-color-brown);
-		font-family: var(--font-family-sans);
-		font-size: 1.125rem;
-		font-weight: 800;
+	.qr-card__body {
+		display: flex;
+		min-width: 0;
+		flex-direction: column;
+		gap: 0.15rem;
 	}
 
-	.qr-page :global(h1),
-	.qr-page :global(h2),
-	.qr-page :global(h3) {
-		font-family: var(--font-family-sans);
+	.qr-card__internal {
+		color: var(--gift-color-rose-dark);
+		font-size: 0.7rem;
+		font-weight: 800;
+		text-transform: uppercase;
+		letter-spacing: 0.12em;
+	}
+
+	.qr-card__scan {
+		color: var(--gift-color-brown);
+		font-size: 1.75rem;
+		font-weight: 700;
+		line-height: 1.1;
+	}
+
+	.qr-card__hint {
+		color: var(--gift-color-muted);
+		font-size: 0.78rem;
+		line-height: 1.25;
+	}
+
+	.qr-card__code {
+		margin-top: 0.2rem;
+		color: var(--gift-color-ink);
+		font-size: 0.75rem;
+		font-weight: 600;
+	}
+
+	.qr-card__code span {
+		font-family: 'Courier New', monospace;
+		font-weight: 700;
+		letter-spacing: 0.03em;
 	}
 
 	@keyframes qr-card-enter {
@@ -344,53 +416,45 @@
 			background: white;
 		}
 
-		.print-controls,
-		.copy-control {
+		.print-controls {
 			display: none !important;
 		}
 
 		.qr-grid {
 			display: grid;
-			grid-template-columns: repeat(2, minmax(0, 1fr));
-			gap: 10mm;
+			grid-template-columns: repeat(2, 85.6mm);
+			justify-content: center;
+			gap: 10mm 8mm;
 			margin: 0;
 		}
 
 		.qr-card {
-			min-height: 0;
-			border: 1.5px dashed #b99972;
-			border-radius: 6mm;
-			padding: 8mm;
+			width: 85.6mm;
+			height: 54mm;
+			aspect-ratio: auto;
+			gap: 4mm;
+			padding: 5mm;
+			border: 1.2px dashed #b99972;
+			border-radius: 4mm;
 			box-shadow: none;
 			animation: none;
 		}
 
-		.qr-card[data-paste-mode='true'] {
-			min-height: 105mm;
+		.qr-card__scan {
+			font-size: 20pt;
 		}
 
-		.qr-image-wrap {
-			width: 68mm;
-			margin-top: 3mm;
+		.qr-card__hint {
+			font-size: 8pt;
 		}
 
-		.qr-image {
-			width: 63.5mm;
-			height: 63.5mm;
-		}
-
-		.scan-label {
-			margin-top: 3mm;
-			font-size: 14pt;
-		}
-
-		.internal-details {
-			display: block;
+		.qr-card__code {
+			font-size: 8pt;
 		}
 	}
 
 	@page {
 		size: A4 portrait;
-		margin: 12mm;
+		margin: 14mm;
 	}
 </style>

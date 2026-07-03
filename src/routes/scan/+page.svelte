@@ -15,6 +15,11 @@
 	let scanFeedback = $state('');
 	let accessAllowed = $state(true);
 
+	let showManualInput = $state(false);
+	let manualCode = $state('');
+	let manualFeedback = $state('');
+	let manualInputEl = $state<HTMLInputElement>();
+
 	onMount(async () => {
 		const state = getHuntState();
 
@@ -81,11 +86,11 @@
 		}
 	}
 
-	async function handleScannedToken(qrToken: string) {
+	async function processToken(qrToken: string, onInvalid: (message: string) => void) {
 		const validation = validateQrToken(qrToken);
 
 		if (!validation.valid) {
-			scanFeedback = getValidationMessage(validation);
+			onInvalid(getValidationMessage(validation));
 			return;
 		}
 
@@ -104,6 +109,39 @@
 		}));
 
 		await goto('/message');
+	}
+
+	async function handleScannedToken(qrToken: string) {
+		await processToken(qrToken, (message) => {
+			scanFeedback = message;
+		});
+	}
+
+	async function openManualInput() {
+		showManualInput = true;
+		manualFeedback = '';
+		await tick();
+		manualInputEl?.focus();
+	}
+
+	function closeManualInput() {
+		showManualInput = false;
+		manualCode = '';
+		manualFeedback = '';
+	}
+
+	async function submitManualCode(event?: Event) {
+		event?.preventDefault();
+		const code = manualCode.trim();
+
+		if (!code) {
+			manualFeedback = 'Tulis dulu kodenya, ya 😊';
+			return;
+		}
+
+		await processToken(code, (message) => {
+			manualFeedback = message;
+		});
 	}
 
 	function stopScanner() {
@@ -155,12 +193,24 @@
 	}
 </script>
 
+<svelte:window
+	onkeydown={(event) => {
+		if (event.key === 'Escape' && showManualInput) closeManualInput();
+	}}
+/>
+
 <AppShell title="Scan QR Rahasia" background="dark" compact bottomSlot>
 	{#snippet bottom()}
 		<div class="bottom-panel">
-			<Button href="/clue" variant="ghost" fullWidth class="text-white hover:bg-white/10">
-				Kembali ke Petunjuk
+			<Button fullWidth variant="secondary" onclick={openManualInput}>
+				<img class="size-5" src="/assets/icons/qr.svg" alt="" aria-hidden="true" />
+				Tidak bisa scan? Masukkan kode
 			</Button>
+			<div class="mt-1 text-center">
+				<Button href="/clue" variant="ghost" size="sm" class="text-white hover:bg-white/10">
+					Kembali ke Petunjuk
+				</Button>
+			</div>
 		</div>
 	{/snippet}
 
@@ -210,7 +260,8 @@
 					<div class="text-center">
 						<h2 class="text-xl font-extrabold text-brown">Kamera belum bisa dibuka</h2>
 						<p class="mt-2 text-sm leading-6 text-muted">{cameraError}</p>
-						<div class="mt-4">
+						<div class="mt-4 space-y-2">
+							<Button fullWidth onclick={openManualInput}>Masukkan Kode Manual</Button>
 							<Button fullWidth variant="secondary" onclick={startScanner}>Coba Lagi</Button>
 						</div>
 					</div>
@@ -218,6 +269,59 @@
 			</div>
 		{/if}
 	</div>
+
+	{#if showManualInput}
+		<div
+			class="manual-overlay"
+			role="dialog"
+			aria-modal="true"
+			aria-label="Masukkan kode secara manual"
+		>
+			<button type="button" class="manual-overlay__backdrop" aria-label="Tutup" onclick={closeManualInput}
+			></button>
+
+			<div class="manual-sheet">
+				<PaperCard compact torn tape="peach" class="w-full">
+					<div class="text-center">
+						<h2 class="font-script text-3xl font-bold text-brown">Masukkan Kode</h2>
+						<p class="mt-1 text-sm leading-6 text-muted">
+							Tidak bisa scan kameranya? Ketik kode yang tertera di bawah QR pada hadiah.
+						</p>
+
+						<form class="mt-4 text-left" onsubmit={submitManualCode}>
+							<label class="text-xs font-bold uppercase tracking-[0.12em] text-rose-dark" for="manual-code">
+								Kode Hadiah
+							</label>
+							<input
+								bind:this={manualInputEl}
+								bind:value={manualCode}
+								id="manual-code"
+								class="manual-input mt-1"
+								type="text"
+								inputmode="text"
+								autocomplete="off"
+								autocapitalize="characters"
+								spellcheck="false"
+								placeholder="Contoh: BDAY-GIFT-A"
+								oninput={() => (manualFeedback = '')}
+							/>
+
+							{#if manualFeedback}
+								<p class="mt-2 text-sm leading-5 text-rose-dark" role="status">{manualFeedback}</p>
+							{/if}
+
+							<div class="mt-4 space-y-2">
+								<Button type="submit" fullWidth>Buka Pesan</Button>
+								<Button type="button" variant="ghost" fullWidth onclick={closeManualInput}>
+									Batal
+								</Button>
+							</div>
+						</form>
+					</div>
+				</PaperCard>
+			</div>
+		</div>
+	{/if}
 </AppShell>
 
 <style>
@@ -267,6 +371,86 @@
 	@media (max-height: 680px) {
 		.scanner-frame {
 			min-height: 8rem;
+		}
+	}
+
+	.manual-overlay {
+		position: fixed;
+		inset: 0;
+		z-index: 50;
+		display: grid;
+		place-items: center;
+		padding: 1.25rem;
+		animation: manual-fade 180ms ease both;
+	}
+
+	.manual-overlay__backdrop {
+		position: absolute;
+		inset: 0;
+		border: 0;
+		background: rgb(23 22 22 / 68%);
+		backdrop-filter: blur(3px);
+		cursor: pointer;
+	}
+
+	.manual-sheet {
+		position: relative;
+		z-index: 1;
+		width: min(100%, 24rem);
+		animation: manual-pop 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+	}
+
+	.manual-input {
+		width: 100%;
+		border: 2px solid var(--gift-color-tan);
+		border-radius: var(--gift-radius-sm);
+		background: var(--gift-color-white);
+		padding: 0.75rem 1rem;
+		color: var(--gift-color-ink);
+		font-family: var(--font-family-sans);
+		font-size: 1.05rem;
+		font-weight: 700;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+	}
+
+	.manual-input::placeholder {
+		color: var(--gift-color-muted);
+		font-weight: 500;
+		letter-spacing: normal;
+		text-transform: none;
+	}
+
+	.manual-input:focus-visible {
+		border-color: var(--gift-color-rose);
+		outline: none;
+		box-shadow: 0 0 0 3px rgb(231 126 134 / 22%);
+	}
+
+	@keyframes manual-fade {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
+
+	@keyframes manual-pop {
+		from {
+			opacity: 0;
+			transform: translateY(0.75rem) scale(0.98);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0) scale(1);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.manual-overlay,
+		.manual-sheet {
+			animation: none;
 		}
 	}
 </style>

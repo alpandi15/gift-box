@@ -18,7 +18,7 @@
 {@render children()}
 
 {#if showMusicDisc}
-	<MusicDisc />
+	<MusicDisc position="top-left" />
 {/if}
 
 <!-- Hidden SVG filter: gives paper cards a rough, hand-torn edge -->
