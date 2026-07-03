@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { AppShell, Button, GuardNotice, MessageCard, PaperCard } from '$lib';
+	import { AppShell, Button, GuardNotice, HeartsScatter, MessageCard, PaperCard } from '$lib';
 	import type { GiftStep } from '$lib/data/giftSteps';
 	import { getLastUnlockedMessageStep } from '$lib/utils/stepGuard';
 	import { getHuntState } from '$lib/utils/storage';
@@ -52,7 +52,10 @@
 		{/if}
 	{/snippet}
 
-	<div class="page-enter flex h-full min-h-0 items-center">
+	<div class="page-enter relative flex h-full min-h-0 items-center">
+		{#if isReady && messageStep}
+			<HeartsScatter density="low" />
+		{/if}
 		{#if !isReady}
 			<PaperCard compact class="w-full">
 				<div class="py-8 text-center" aria-live="polite">

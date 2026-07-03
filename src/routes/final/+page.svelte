@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { AppShell, Button, GuardNotice, MessageCard, PaperCard } from '$lib';
+	import { AppShell, Button, GuardNotice, HeartsScatter, LetterCard, PaperCard, Polaroid } from '$lib';
 	import { canOpenFinal } from '$lib/utils/stepGuard';
 	import { getHuntState, resetHuntState, updateHuntState } from '$lib/utils/storage';
 	import { onMount } from 'svelte';
@@ -61,7 +61,10 @@
 		{/if}
 	{/snippet}
 
-	<div class="page-enter flex h-full min-h-0 items-center">
+	<div class="page-enter relative flex h-full min-h-0 items-center">
+		{#if viewState === 'allowed'}
+			<HeartsScatter />
+		{/if}
 		{#if viewState === 'loading'}
 			<PaperCard compact class="w-full">
 				<div class="py-8 text-center" aria-live="polite">
@@ -86,16 +89,40 @@
 				/>
 			</div>
 		{:else}
-			<div class="w-full">
-				<MessageCard
-					title="Selamat ulang tahun, sayang ❤️"
-					message="Semoga hari ini kamu merasa dicintai, dihargai, dan disayangi. Terima kasih sudah jadi rumah paling nyaman untuk aku pulang. Ini bukan sekadar hadiah, tapi cara kecilku bilang bahwa kamu sangat berarti."
-					illustration="/assets/illustrations/final-big-gift.webp"
-					illustrationAlt="Hadiah besar untuk kejutan ulang tahun"
-					note="Dengan seluruh cinta yang selalu memilihmu."
+			<div class="relative w-full">
+				<div class="final-polaroid" aria-hidden="true">
+					<Polaroid
+						src="/assets/illustrations/couple-polaroid-placeholder.webp"
+						width="6rem"
+						tilt={7}
+						tape="peach"
+						caption="kita ❤️"
+					/>
+				</div>
+
+				<LetterCard
+					title="Untukmu, Sayang ❤️"
+					message="Selamat ulang tahun, cintaku. Semoga hari ini kamu merasa dicintai, dihargai, dan disayangi. Terima kasih sudah jadi rumah paling nyaman untuk aku pulang. Semoga semua impianmu dimudahkan dan hari-harimu penuh kebahagiaan."
+					signature="Aku selalu memilihmu. Selalu."
 					compact
 				/>
 			</div>
 		{/if}
 	</div>
 </AppShell>
+
+<style>
+	.final-polaroid {
+		position: absolute;
+		top: -6.75rem;
+		right: -0.25rem;
+		z-index: 30;
+		pointer-events: none;
+	}
+
+	@media (max-height: 760px) {
+		.final-polaroid {
+			display: none;
+		}
+	}
+</style>

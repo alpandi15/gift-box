@@ -1,5 +1,6 @@
 <script lang="ts">
 	import PaperCard from './PaperCard.svelte';
+	import TapeLabel from './TapeLabel.svelte';
 
 	interface Props {
 		title?: string;
@@ -28,14 +29,9 @@
 	});
 </script>
 
-<PaperCard {compact} class={compact ? 'h-full' : ''}>
+<PaperCard {compact} torn tilt={-1} class={compact ? 'h-full' : ''}>
 	<div class="text-center">
-		<div
-			class="font-hand inline-flex items-center gap-2 rounded-full bg-purple/12 px-3 py-2 text-base font-bold text-brown"
-		>
-			<img class="soft-pulse size-4" src="/assets/icons/sparkle.svg" alt="" aria-hidden="true" />
-			<span>{eyebrow}</span>
-		</div>
+		<TapeLabel text={eyebrow} color="purple" icon="/assets/icons/sparkle.svg" />
 
 		{#if illustration}
 			<div
@@ -55,11 +51,11 @@
 		{/if}
 
 		<h2
-			class="font-hand font-bold leading-tight text-brown"
+			class="font-script font-bold leading-tight text-brown"
 			class:mt-3={compact}
-			class:text-2xl={compact}
+			class:text-3xl={compact}
 			class:mt-5={!compact}
-			class:text-3xl={!compact}
+			class:text-4xl={!compact}
 		>
 			{title}
 		</h2>

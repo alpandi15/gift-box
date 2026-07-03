@@ -1,5 +1,6 @@
 <script lang="ts">
 	import PaperCard from './PaperCard.svelte';
+	import TapeLabel from './TapeLabel.svelte';
 
 	interface Props {
 		title?: string;
@@ -7,6 +8,7 @@
 		illustration?: string;
 		illustrationAlt?: string;
 		note?: string;
+		label?: string;
 		compact?: boolean;
 	}
 
@@ -16,12 +18,15 @@
 		illustration,
 		illustrationAlt = '',
 		note,
+		label = 'Pesan Untukmu',
 		compact = false
 	}: Props = $props();
 </script>
 
-<PaperCard icon={compact ? undefined : '/assets/icons/envelope.svg'} {compact} class={compact ? 'h-full' : ''}>
+<PaperCard icon={compact ? undefined : '/assets/icons/envelope.svg'} {compact} torn tilt={1} class={compact ? 'h-full' : ''}>
 	<div class="text-center">
+		<TapeLabel text={label} color="peach" icon="/assets/icons/heart.svg" />
+
 		{#if illustration}
 			<div
 				class="message-illustration mx-auto overflow-hidden rounded-lg bg-rose/10 p-1.5"
@@ -39,7 +44,7 @@
 			</div>
 		{/if}
 
-		<h2 class="font-hand font-bold leading-tight text-brown" class:text-2xl={compact} class:text-3xl={!compact}>
+		<h2 class="font-script font-bold leading-tight text-brown" class:text-3xl={compact} class:text-4xl={!compact}>
 			{title}
 		</h2>
 
@@ -59,10 +64,10 @@
 				aria-hidden="true"
 			/>
 			<p
-				class="font-body text-ink"
-				class:text-base={compact}
+				class="font-script text-ink"
+				class:text-xl={compact}
 				class:leading-7={compact}
-				class:text-lg={!compact}
+				class:text-2xl={!compact}
 				class:leading-8={!compact}
 			>
 				{message}

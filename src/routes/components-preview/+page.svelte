@@ -4,8 +4,13 @@
 		Button,
 		ClueCard,
 		GuardNotice,
+		HeartsScatter,
+		LetterCard,
 		MessageCard,
 		PaperCard,
+		Polaroid,
+		Tape,
+		TapeLabel,
 		UnlockCard
 	} from '$lib';
 </script>
@@ -55,5 +60,37 @@
 		<GuardNotice />
 
 		<UnlockCard />
+
+		<section class="space-y-3">
+			<h2 class="text-lg font-extrabold text-brown">Scrapbook primitives</h2>
+
+			<div class="flex flex-wrap items-start gap-4">
+				<Polaroid
+					src="/assets/illustrations/couple-polaroid-placeholder.webp"
+					caption="kita ❤️"
+				/>
+				<div class="space-y-2">
+					<TapeLabel text="Petunjuk Pertama" color="purple" icon="/assets/icons/sparkle.svg" />
+					<TapeLabel text="Pesan Untukmu" color="peach" icon="/assets/icons/heart.svg" />
+					<TapeLabel text="Catatan Kecil" color="neutral" />
+				</div>
+			</div>
+
+			<PaperCard torn tilt={-1} class="relative">
+				<span class="relative"><Tape color="neutral" position="top-right" /></span>
+				<p class="font-script text-2xl text-center text-brown">Kartu kertas robek + selotip</p>
+			</PaperCard>
+
+			<LetterCard
+				title="Untukmu, Sayang ❤️"
+				message="Selamat ulang tahun, cintaku. Terima kasih sudah jadi rumah paling nyaman untuk aku pulang."
+				signature="Aku selalu memilihmu."
+			/>
+
+			<div class="relative min-h-40 rounded-xl border border-tan/50 bg-cream-soft/60">
+				<HeartsScatter />
+				<p class="relative py-16 text-center text-sm text-muted">Hati bertebaran (dekoratif)</p>
+			</div>
+		</section>
 	</div>
 </AppShell>

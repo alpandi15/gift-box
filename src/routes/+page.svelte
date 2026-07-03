@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { AppShell, Button, PaperCard } from '$lib';
+	import { AppShell, Button, HeartsScatter, PaperCard, Polaroid } from '$lib';
 	import { giftStepIds } from '$lib/data/giftSteps';
 	import { playMusic } from '$lib/stores/musicStore';
 	import { getHuntState, resetHuntState, updateHuntState } from '$lib/utils/storage';
@@ -73,8 +73,19 @@
 		</div>
 	{/snippet}
 
-	<div class="page-enter flex h-full min-h-0 items-center">
-		<PaperCard compact class="w-full">
+	<div class="page-enter relative flex h-full min-h-0 items-center">
+		<HeartsScatter density="low" />
+
+		<div class="polaroid-pin" aria-hidden="true">
+			<Polaroid
+				src="/assets/illustrations/couple-polaroid-placeholder.webp"
+				width="5.25rem"
+				tilt={6}
+				tape="peach"
+			/>
+		</div>
+
+		<PaperCard compact torn tilt={-1} class="relative w-full">
 			<div class="text-center">
 				<div
 					class="opening-illustration gentle-float mx-auto max-w-36 min-[360px]:max-w-44 min-[400px]:max-w-52"
@@ -90,7 +101,7 @@
 					<img class="size-6" src="/assets/icons/heart.svg" alt="" aria-hidden="true" />
 				</div>
 
-				<h1 class="font-hand mt-3 text-3xl font-bold leading-tight text-brown min-[390px]:text-4xl">
+				<h1 class="font-script mt-3 text-4xl font-bold leading-tight text-brown min-[390px]:text-5xl">
 					Selamat ulang tahun, sayang ❤️
 				</h1>
 
@@ -108,6 +119,20 @@
 </AppShell>
 
 <style>
+	.polaroid-pin {
+		position: absolute;
+		top: -0.25rem;
+		right: -0.35rem;
+		z-index: 30;
+		pointer-events: none;
+	}
+
+	@media (max-height: 620px) {
+		.polaroid-pin {
+			display: none;
+		}
+	}
+
 	@media (max-height: 540px) {
 		.opening-illustration {
 			max-width: 6.5rem;

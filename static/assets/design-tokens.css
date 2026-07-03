@@ -14,11 +14,17 @@
 	--gift-color-dark-unlock: #2f2d2d;
 	--gift-color-white: #ffffff;
 
+	/* Washi tape overlays (semi-transparent strips) */
+	--gift-tape-neutral: rgb(231 199 156 / 42%);
+	--gift-tape-peach: rgb(244 166 160 / 42%);
+	--gift-tape-purple: rgb(184 137 201 / 40%);
+
 	--font-family-sans: 'Comic Neue', cursive;
 	--font-family-hand: 'Comic Neue', cursive;
+	--font-family-script: 'Caveat', 'Comic Neue', cursive;
 	--gift-font-heading: var(--font-family-hand);
 	--gift-font-body: var(--font-family-sans);
-	--gift-font-handwritten: var(--font-family-hand);
+	--gift-font-handwritten: var(--font-family-script);
 
 	--gift-text-xs: 0.75rem;
 	--gift-text-sm: 0.875rem;

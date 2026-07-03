@@ -18,6 +18,7 @@
 	--font-heading: var(--gift-font-heading);
 	--font-body: var(--gift-font-body);
 	--font-handwritten: var(--gift-font-handwritten);
+	--font-script: var(--gift-font-handwritten);
 	--font-sans: 'Comic Neue', cursive;
 	--font-hand: 'Comic Neue', cursive;
 
@@ -94,6 +95,11 @@
 @layer components {
 	.font-hand {
 		font-family: var(--font-family-hand);
+	}
+
+	.font-script {
+		font-family: var(--font-family-script);
+		letter-spacing: 0.01em;
 	}
 
 	.font-body {

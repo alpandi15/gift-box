@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { AppShell, Button, ClueCard, PaperCard } from '$lib';
+	import { AppShell, Button, ClueCard, HeartsScatter, PaperCard } from '$lib';
 	import type { GiftStep } from '$lib/data/giftSteps';
 	import { canOpenFinal, getCurrentClueStep } from '$lib/utils/stepGuard';
 	import { getHuntState } from '$lib/utils/storage';
@@ -47,7 +47,10 @@
 		{/if}
 	{/snippet}
 
-	<div class="page-enter flex h-full min-h-0 items-center">
+	<div class="page-enter relative flex h-full min-h-0 items-center">
+		{#if isReady && clueStep}
+			<HeartsScatter density="low" />
+		{/if}
 		{#if !isReady || !clueStep}
 			<PaperCard compact class="w-full">
 				<div class="py-8 text-center" aria-live="polite">
