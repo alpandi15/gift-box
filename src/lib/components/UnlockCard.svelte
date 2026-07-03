@@ -25,8 +25,8 @@
 			<img class="size-9" src="/assets/icons/unlock.svg" alt="" aria-hidden="true" />
 		</div>
 
-		<h2 class="mt-4 text-2xl font-extrabold leading-tight text-brown">{title}</h2>
-		<p class="mx-auto mt-3 max-w-sm leading-7 text-muted">{message}</p>
+		<h2 class="font-hand mt-4 text-3xl font-bold leading-tight text-brown">{title}</h2>
+		<p class="font-body mx-auto mt-3 max-w-sm leading-7 text-muted">{message}</p>
 
 		<div class="mt-6">
 			<Button {href} fullWidth>

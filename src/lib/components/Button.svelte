@@ -32,7 +32,7 @@
 	}: Props = $props();
 
 	const baseClasses =
-		'inline-flex items-center justify-center gap-2 rounded-full border font-heading font-bold leading-none transition duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 active:scale-[0.98]';
+		'inline-flex items-center justify-center gap-2 rounded-full border font-body font-bold leading-none transition duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 active:scale-[0.98]';
 
 	const variantClasses: Record<Variant, string> = {
 		primary:

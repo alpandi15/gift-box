@@ -1,4 +1,4 @@
-export const giftStepIds = [1, 2, 3] as const;
+export const giftStepIds = [1, 2, 3, 4] as const;
 
 export type GiftStepId = (typeof giftStepIds)[number];
 
@@ -16,21 +16,21 @@ export interface GiftStep {
 export const giftSteps = [
 	{
 		id: 1,
-		title: 'Jejak Hangat Pertama',
-		clue: 'Cari sudut rumah tempat kita biasa duduk santai dan berbagi cerita.',
+		title: 'Pantulan Paling Jujur',
+		clue: 'Melangkahlah ke ruang tempat kita menyimpan mimpi kedua. Di sana ada benda yang setiap pagi selalu jujur memperlihatkan wajah tercantik yang aku kenal. Hari ini ia menyimpan rahasia — coba tengok apa yang diam-diam bersembunyi di kolongnya.',
 		message:
-			'Terima kasih sudah membuat setiap waktu sederhana terasa hangat. Senyummu selalu jadi tempat pulang favoritku.',
-		illustration: '/assets/illustrations/sofa-corner.webp',
+			'Setiap pagi, wajahmu adalah pemandangan pertama yang membuat hariku layak dijalani. Terima kasih sudah jadi orang tercantik di rumah ini.',
+		illustration: '/assets/illustrations/mirror-table.webp',
 		qrToken: 'BDAY-GIFT-A',
 		nextStep: 2,
 		isFinalTrigger: false
 	},
 	{
 		id: 2,
-		title: 'Bekal untuk Petualangan',
-		clue: 'Petunjuk berikutnya bersembunyi dekat teman yang selalu menemanimu saat bepergian.',
+		title: 'Penjaga Setiap Langkah',
+		clue: 'Sebelum menyapa dunia di luar sana, kita selalu singgah sejenak di dekat gerbang rumah. Ada penjaga setia yang menyimpan hal-hal yang menemani kaki kita berjalan ke mana pun. Di dekatnya, petunjuk berikutnya sedang menunggu.',
 		message:
-			'Bersamamu, perjalanan kecil sekalipun selalu terasa istimewa. Semoga kita terus punya banyak cerita untuk dibawa pulang.',
+			'Ke mana pun langkahmu membawamu, aku selalu ingin jadi yang berjalan di sampingmu. Terima kasih sudah menemaniku sejauh ini.',
 		illustration: '/assets/illustrations/bag-and-cup.webp',
 		qrToken: 'BDAY-GIFT-B',
 		nextStep: 3,
@@ -38,12 +38,23 @@ export const giftSteps = [
 	},
 	{
 		id: 3,
-		title: 'Pantulan Paling Manis',
-		clue: 'Lihat ke tempat yang setiap hari memantulkan sosok paling cantik di rumah ini.',
+		title: 'Tempat Berbaring yang Berpindah',
+		clue: 'Menujulah ke ruang paling belakang di rumah kita. Di sana ada tempat peristirahatan yang dulu jadi sandaran lelah kita, namun kita relakan turun demi si kecil yang kedua. Yang dulu tempat berbaring, kini menyimpan rahasia di dalam perutnya. Bukalah perlahan.',
 		message:
-			'Orang cantik di depan cermin itu adalah alasan banyak hariku terasa lebih cerah. Satu kejutan terakhir sedang menunggumu.',
-		illustration: '/assets/illustrations/mirror-table.webp',
+			'Banyak hal kecil kita relakan demi anak-anak kita, tanpa pernah kamu keluhkan. Terima kasih sudah jadi ibu yang begitu tulus dan penuh cinta.',
+		illustration: '/assets/illustrations/opening-room.webp',
 		qrToken: 'BDAY-GIFT-C',
+		nextStep: 4,
+		isFinalTrigger: false
+	},
+	{
+		id: 4,
+		title: 'Rumah Seribu Cerita',
+		clue: 'Kejutan terakhir bersembunyi di tempat berkumpulnya seribu cerita dan pengetahuan. Deretan punggung yang berdiri rapi itu menjaganya dengan setia. Di sanalah babak akhir petualangan hari ini menantimu.',
+		message:
+			'Di antara semua cerita yang kita tulis bersama, kamu selalu jadi bab favoritku. Satu kejutan terakhir sudah menunggu — bukalah, ya.',
+		illustration: '/assets/illustrations/final-big-gift.webp',
+		qrToken: 'BDAY-GIFT-D',
 		nextStep: null,
 		isFinalTrigger: true
 	}

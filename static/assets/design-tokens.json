@@ -17,9 +17,11 @@
     "white": "#FFFFFF"
   },
   "fontFamily": {
-    "heading": "'Nunito', 'Quicksand', system-ui, sans-serif",
-    "body": "'Nunito', system-ui, sans-serif",
-    "handwritten": "'Patrick Hand', 'Comic Sans MS', cursive"
+    "sans": "'Comic Neue', cursive",
+    "hand": "'Comic Neue', cursive",
+    "heading": "'Comic Neue', cursive",
+    "body": "'Comic Neue', cursive",
+    "handwritten": "'Comic Neue', cursive"
   },
   "fontSize": {
     "xs": "12px",

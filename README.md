@@ -41,6 +41,10 @@ Browser hanya mengizinkan kamera pada secure context:
 
 Saat menguji dari HP di jaringan lokal menggunakan alamat IP HTTP, kamera mungkin ditolak oleh browser. Gunakan HTTPS tunnel atau deployment preview.
 
+## Background Music
+
+Background music memakai file lokal `static/assets/musics/music.mp3`. Browser mobile tidak mengizinkan autoplay sebelum interaksi user, jadi musik mulai setelah user klik disc musik atau tombol mulai misi.
+
 ## Validation
 
 ```bash

@@ -37,11 +37,10 @@ const ASSETS = {
 
 ## Font Rekomendasi
 
-- Heading/body: `Nunito` atau `Quicksand`
-- Clue/message: `Patrick Hand`
+- Semua UI: `Comic Neue`
 
 ```html
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Patrick+Hand&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@300;400;700&display=swap" rel="stylesheet">
 ```
 
 ## QR Card Template

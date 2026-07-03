@@ -225,7 +225,7 @@
 
 						{#if !pasteMode}
 							<div class="internal-details mt-4 w-full">
-								<p class="break-all rounded-md bg-cream px-3 py-2 font-mono text-xs leading-5 text-ink">
+								<p class="break-all rounded-md bg-cream px-3 py-2 text-xs leading-5 text-ink">
 									{item.qrToken}
 								</p>
 								<p class="mt-3 text-sm leading-6 text-muted">{item.note}</p>
@@ -297,9 +297,15 @@
 	.scan-label {
 		margin-top: 0.75rem;
 		color: var(--gift-color-brown);
-		font-family: var(--gift-font-heading);
+		font-family: var(--font-family-sans);
 		font-size: 1.125rem;
 		font-weight: 800;
+	}
+
+	.qr-page :global(h1),
+	.qr-page :global(h2),
+	.qr-page :global(h3) {
+		font-family: var(--font-family-sans);
 	}
 
 	@keyframes qr-card-enter {

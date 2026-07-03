@@ -3,10 +3,11 @@
 
 	interface Props {
 		title?: string;
-		clue: string;
+		clue: string | string[];
 		illustration?: string;
 		illustrationAlt?: string;
 		eyebrow?: string;
+		compact?: boolean;
 	}
 
 	let {
@@ -14,21 +15,36 @@
 		clue,
 		illustration,
 		illustrationAlt = '',
-		eyebrow = 'Petunjuk terbuka'
+		eyebrow = 'Petunjuk terbuka',
+		compact = false
 	}: Props = $props();
+
+	let activeClue = $state(0);
+	let clues = $derived(Array.isArray(clue) ? clue : [clue]);
+
+	$effect(() => {
+		clues;
+		activeClue = 0;
+	});
 </script>
 
-<PaperCard>
+<PaperCard {compact} class={compact ? 'h-full' : ''}>
 	<div class="text-center">
 		<div
-			class="inline-flex items-center gap-2 rounded-full bg-purple/12 px-3 py-2 text-xs font-extrabold uppercase tracking-[0.14em] text-brown"
+			class="font-hand inline-flex items-center gap-2 rounded-full bg-purple/12 px-3 py-2 text-base font-bold text-brown"
 		>
 			<img class="soft-pulse size-4" src="/assets/icons/sparkle.svg" alt="" aria-hidden="true" />
 			<span>{eyebrow}</span>
 		</div>
 
 		{#if illustration}
-			<div class="mx-auto mt-4 max-w-64 overflow-hidden rounded-lg bg-peach/10 p-2">
+			<div
+				class="mx-auto overflow-hidden rounded-lg bg-peach/10 p-1.5"
+				class:mt-3={compact}
+				class:max-w-36={compact}
+				class:mt-4={!compact}
+				class:max-w-64={!compact}
+			>
 				<img
 					class="aspect-square w-full object-contain"
 					src={illustration}
@@ -38,15 +54,52 @@
 			</div>
 		{/if}
 
-		<h2 class="mt-5 text-2xl font-extrabold leading-tight text-brown">{title}</h2>
-		<p class="mx-auto mt-4 max-w-sm font-handwritten text-[1.55rem] leading-9 text-ink">
-			“{clue}”
+		<h2
+			class="font-hand font-bold leading-tight text-brown"
+			class:mt-3={compact}
+			class:text-2xl={compact}
+			class:mt-5={!compact}
+			class:text-3xl={!compact}
+		>
+			{title}
+		</h2>
+		<p
+			class="font-body mx-auto max-w-sm text-ink"
+			class:mt-2={compact}
+			class:text-base={compact}
+			class:leading-7={compact}
+			class:mt-4={!compact}
+			class:text-lg={!compact}
+			class:leading-8={!compact}
+		>
+			“{clues[activeClue]}”
 		</p>
 
-		<div class="mx-auto mt-5 flex w-fit items-center gap-2 text-sm font-semibold text-muted">
-			<span class="h-px w-8 bg-tan"></span>
-			<span>Ikuti kata hatimu</span>
-			<span class="h-px w-8 bg-tan"></span>
-		</div>
+		{#if clues.length > 1}
+			<div class="mt-3 flex items-center justify-center gap-3">
+				<button
+					type="button"
+					class="rounded-full px-3 py-2 text-sm font-bold text-rose-dark disabled:opacity-35"
+					disabled={activeClue === 0}
+					onclick={() => (activeClue -= 1)}
+				>
+					Sebelumnya
+				</button>
+				<button
+					type="button"
+					class="rounded-full px-3 py-2 text-sm font-bold text-rose-dark disabled:opacity-35"
+					disabled={activeClue === clues.length - 1}
+					onclick={() => (activeClue += 1)}
+				>
+					Berikutnya
+				</button>
+			</div>
+		{:else if !compact}
+			<div class="mx-auto mt-5 flex w-fit items-center gap-2 text-sm font-semibold text-muted">
+				<span class="h-px w-8 bg-tan"></span>
+				<span>Ikuti kata hatimu</span>
+				<span class="h-px w-8 bg-tan"></span>
+			</div>
+		{/if}
 	</div>
 </PaperCard>

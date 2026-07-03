@@ -27,10 +27,29 @@
 	});
 </script>
 
-<AppShell title="Petunjuk Rahasia" background="paper">
-	<div class="page-enter flex min-h-[calc(100dvh-3rem)] items-center py-3 sm:py-5">
+<AppShell title="Petunjuk Rahasia" background="paper" compact bottomSlot>
+	{#snippet bottom()}
+		{#if isReady && clueStep}
+			<div class="bottom-panel text-center">
+				<Button href="/scan" fullWidth>
+					<img
+						class="size-5 brightness-0 invert"
+						src="/assets/icons/qr.svg"
+						alt=""
+						aria-hidden="true"
+					/>
+					Scan QR yang Kamu Temukan
+				</Button>
+				<p class="mt-2 text-xs leading-5 text-muted">
+					Cari hadiahnya, lalu buka kamera dari sini.
+				</p>
+			</div>
+		{/if}
+	{/snippet}
+
+	<div class="page-enter flex h-full min-h-0 items-center">
 		{#if !isReady || !clueStep}
-			<PaperCard class="w-full">
+			<PaperCard compact class="w-full">
 				<div class="py-8 text-center" aria-live="polite">
 					<img
 						class="mx-auto size-9 animate-pulse"
@@ -42,28 +61,14 @@
 				</div>
 			</PaperCard>
 		{:else}
-			<div class="w-full space-y-5">
+			<div class="h-full max-h-[32rem] w-full">
 				<ClueCard
 					title={clueStep.title}
 					clue={clueStep.clue}
 					illustration={clueStep.illustration}
 					illustrationAlt="Ilustrasi kecil yang membantu menunjukkan lokasi petunjuk"
+					compact
 				/>
-
-				<div class="rounded-lg bg-white/55 p-4 text-center shadow-soft backdrop-blur-sm">
-					<Button href="/scan" fullWidth>
-						<img
-							class="size-5 brightness-0 invert"
-							src="/assets/icons/qr.svg"
-							alt=""
-							aria-hidden="true"
-						/>
-						Scan QR yang Kamu Temukan
-					</Button>
-					<p class="mt-3 text-sm leading-6 text-muted">
-						Cari hadiah tersembunyinya, lalu kembali ke sini untuk membuka kamera.
-					</p>
-				</div>
 			</div>
 		{/if}
 	</div>

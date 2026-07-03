@@ -14,9 +14,11 @@
 	--gift-color-dark-unlock: #2f2d2d;
 	--gift-color-white: #ffffff;
 
-	--gift-font-heading: 'Nunito', 'Quicksand', system-ui, sans-serif;
-	--gift-font-body: 'Nunito', system-ui, sans-serif;
-	--gift-font-handwritten: 'Patrick Hand', 'Comic Sans MS', cursive;
+	--font-family-sans: 'Comic Neue', cursive;
+	--font-family-hand: 'Comic Neue', cursive;
+	--gift-font-heading: var(--font-family-hand);
+	--gift-font-body: var(--font-family-sans);
+	--gift-font-handwritten: var(--font-family-hand);
 
 	--gift-text-xs: 0.75rem;
 	--gift-text-sm: 0.875rem;

@@ -54,6 +54,9 @@ State:
 ## Phase 6 — Polish & Testing
 
 - [x] Mobile safe-area dan no horizontal overflow.
+- [x] Compact fullscreen gameplay dengan CTA tetap di bottom.
+- [x] Gameplay page tidak menggunakan page scroll.
+- [x] Clue card mendukung slide Next/Prev tanpa progress angka.
 - [x] Micro animation dan reduced-motion.
 - [x] Reset progress.
 - [x] Guard state corrupt, duplicate, dan urutan scan.

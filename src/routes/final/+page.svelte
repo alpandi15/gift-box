@@ -38,10 +38,32 @@
 	}
 </script>
 
-<AppShell title="Selamat Ulang Tahun, Sayang" background="final">
-	<div class="page-enter flex min-h-[calc(100dvh-3rem)] items-center py-3 sm:py-5">
+<AppShell title="Selamat Ulang Tahun, Sayang" background="final" compact bottomSlot>
+	{#snippet bottom()}
+		{#if viewState === 'allowed'}
+			<div class="bottom-panel">
+				<Button href="/" fullWidth size="lg">Selesai ❤️</Button>
+				<div class="mt-1 text-center">
+					<Button
+						variant="ghost"
+						size="sm"
+						disabled={isResetting}
+						onclick={resetMission}
+					>
+						{isResetting ? 'Mengulang...' : 'Main ulang dari awal'}
+					</Button>
+				</div>
+			</div>
+		{:else if viewState === 'guarded'}
+			<div class="bottom-panel">
+				<Button href={guardHref} variant="secondary" fullWidth>{guardLabel}</Button>
+			</div>
+		{/if}
+	{/snippet}
+
+	<div class="page-enter flex h-full min-h-0 items-center">
 		{#if viewState === 'loading'}
-			<PaperCard class="w-full">
+			<PaperCard compact class="w-full">
 				<div class="py-8 text-center" aria-live="polite">
 					<img
 						class="mx-auto size-9 animate-pulse"
@@ -59,31 +81,20 @@
 					message="Masih ada petunjuk yang menunggumu. Kembali dulu dan lanjutkan perjalanan kecil ini, ya."
 					actionHref={guardHref}
 					actionLabel={guardLabel}
+					showAction={false}
+					compact
 				/>
 			</div>
 		{:else}
-			<div class="w-full space-y-5">
+			<div class="w-full">
 				<MessageCard
 					title="Selamat ulang tahun, sayang ❤️"
 					message="Semoga hari ini kamu merasa dicintai, dihargai, dan disayangi. Terima kasih sudah jadi rumah paling nyaman untuk aku pulang. Ini bukan sekadar hadiah, tapi cara kecilku bilang bahwa kamu sangat berarti."
 					illustration="/assets/illustrations/final-big-gift.webp"
 					illustrationAlt="Hadiah besar untuk kejutan ulang tahun"
 					note="Dengan seluruh cinta yang selalu memilihmu."
+					compact
 				/>
-
-				<div class="rounded-lg bg-white/60 p-4 shadow-soft backdrop-blur-sm">
-					<Button href="/" fullWidth size="lg">Selesai ❤️</Button>
-					<div class="mt-2 text-center">
-						<Button
-							variant="ghost"
-							size="sm"
-							disabled={isResetting}
-							onclick={resetMission}
-						>
-							{isResetting ? 'Mengulang...' : 'Main ulang dari awal'}
-						</Button>
-					</div>
-				</div>
 			</div>
 		{/if}
 	</div>

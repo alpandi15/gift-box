@@ -155,64 +155,68 @@
 	}
 </script>
 
-<AppShell title="Scan QR Rahasia" background="dark">
-	<div class="page-enter flex min-h-[calc(100dvh-3rem)] items-center py-3 sm:py-5">
-		<div class="w-full space-y-4">
-			<header class="text-center text-white">
-				<div class="soft-pulse mx-auto flex size-12 items-center justify-center rounded-full bg-white/12">
-					<img class="size-7 brightness-0 invert" src="/assets/icons/qr.svg" alt="" aria-hidden="true" />
-				</div>
-				<h1 class="mt-4 text-2xl font-extrabold text-white">Arahkan ke QR yang kamu temukan</h1>
-				<p class="mt-2 text-sm leading-6 text-white/75">
-					Posisikan QR di dalam bingkai dan tahan sebentar.
-				</p>
-			</header>
-
-			{#if accessAllowed}
-				<div class="scanner-frame" class:scanner-frame--success={isProcessing}>
-					<video
-						bind:this={videoElement}
-						class="h-full w-full object-cover"
-						autoplay
-						muted
-						playsinline
-						aria-label="Pratinjau kamera untuk memindai QR"
-					></video>
-					<div class="scanner-corners" aria-hidden="true"></div>
-
-					{#if isStarting}
-						<div class="absolute inset-0 grid place-items-center bg-dark-unlock/75">
-							<p class="text-sm font-semibold text-white">Membuka kamera...</p>
-						</div>
-					{/if}
-				</div>
-			{/if}
-
-			{#if scanFeedback}
-				<div
-					class="rounded-lg border border-white/15 bg-white/10 p-4 text-center text-sm leading-6 text-white"
-					role="status"
-				>
-					{scanFeedback}
-				</div>
-			{/if}
-
-			{#if cameraError}
-				<PaperCard elevated={false}>
-					<div class="text-center">
-						<h2 class="text-xl font-extrabold text-brown">Kamera belum bisa dibuka</h2>
-						<p class="mt-3 text-sm leading-6 text-muted">{cameraError}</p>
-						<div class="mt-5">
-							<Button fullWidth variant="secondary" onclick={startScanner}>Coba Lagi</Button>
-						</div>
-					</div>
-				</PaperCard>
-			{/if}
-
+<AppShell title="Scan QR Rahasia" background="dark" compact bottomSlot>
+	{#snippet bottom()}
+		<div class="bottom-panel">
 			<Button href="/clue" variant="ghost" fullWidth class="text-white hover:bg-white/10">
 				Kembali ke Petunjuk
 			</Button>
 		</div>
+	{/snippet}
+
+	<div class="page-enter flex h-full min-h-0 flex-col gap-3">
+		<header class="shrink-0 text-center text-white">
+			<div class="soft-pulse mx-auto flex size-10 items-center justify-center rounded-full bg-white/12">
+				<img class="size-6 brightness-0 invert" src="/assets/icons/qr.svg" alt="" aria-hidden="true" />
+			</div>
+			<h1 class="mt-2 text-xl font-extrabold text-white min-[390px]:text-2xl">
+				Arahkan ke QR yang kamu temukan
+			</h1>
+			<p class="mt-1 text-xs leading-5 text-white/75 min-[390px]:text-sm">
+				Posisikan QR di dalam bingkai dan tahan sebentar.
+			</p>
+		</header>
+
+		{#if accessAllowed}
+			<div class="scanner-frame min-h-0 flex-1" class:scanner-frame--success={isProcessing}>
+				<video
+					bind:this={videoElement}
+					class="h-full w-full object-cover"
+					autoplay
+					muted
+					playsinline
+					aria-label="Pratinjau kamera untuk memindai QR"
+				></video>
+				<div class="scanner-corners" aria-hidden="true"></div>
+
+				{#if isStarting}
+					<div class="absolute inset-0 grid place-items-center bg-dark-unlock/75">
+						<p class="text-sm font-semibold text-white">Membuka kamera...</p>
+					</div>
+				{/if}
+
+				{#if scanFeedback}
+					<div
+						class="absolute inset-x-3 bottom-3 rounded-lg border border-white/15 bg-dark-unlock/85 p-3 text-center text-xs leading-5 text-white backdrop-blur-sm"
+						role="status"
+					>
+						{scanFeedback}
+					</div>
+				{/if}
+			</div>
+		{:else if cameraError}
+			<div class="flex min-h-0 flex-1 items-center">
+				<PaperCard elevated={false} compact class="w-full">
+					<div class="text-center">
+						<h2 class="text-xl font-extrabold text-brown">Kamera belum bisa dibuka</h2>
+						<p class="mt-2 text-sm leading-6 text-muted">{cameraError}</p>
+						<div class="mt-4">
+							<Button fullWidth variant="secondary" onclick={startScanner}>Coba Lagi</Button>
+						</div>
+					</div>
+				</PaperCard>
+			</div>
+		{/if}
 	</div>
 </AppShell>
 
@@ -221,8 +225,7 @@
 		position: relative;
 		overflow: hidden;
 		width: 100%;
-		aspect-ratio: 3 / 4;
-		max-height: 62dvh;
+		min-height: 10rem;
 		border: 1px solid rgb(255 255 255 / 20%);
 		border-radius: var(--gift-radius-lg);
 		background: #171616;
@@ -263,8 +266,7 @@
 
 	@media (max-height: 680px) {
 		.scanner-frame {
-			aspect-ratio: 1;
-			max-height: 48dvh;
+			min-height: 8rem;
 		}
 	}
 </style>

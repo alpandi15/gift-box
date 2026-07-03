@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { AppShell, GuardNotice, MessageCard, PaperCard, UnlockCard } from '$lib';
+	import { AppShell, Button, GuardNotice, MessageCard, PaperCard } from '$lib';
 	import type { GiftStep } from '$lib/data/giftSteps';
 	import { getLastUnlockedMessageStep } from '$lib/utils/stepGuard';
 	import { getHuntState } from '$lib/utils/storage';
@@ -26,10 +26,35 @@
 	});
 </script>
 
-<AppShell title="Sebuah Pesan Terbuka" background="paper">
-	<div class="page-enter flex min-h-[calc(100dvh-3rem)] items-center py-3 sm:py-5">
+<AppShell title="Sebuah Pesan Terbuka" background="paper" compact bottomSlot>
+	{#snippet bottom()}
+		{#if isReady && messageStep}
+			<div class="bottom-panel">
+				<Button
+					href={messageStep.isFinalTrigger ? '/final' : '/clue'}
+					fullWidth
+					size="lg"
+				>
+					{messageStep.isFinalTrigger
+						? 'Lanjut ke Kejutan Terakhir'
+						: 'Buka Petunjuk Berikutnya'}
+				</Button>
+				<p class="mt-2 text-center text-xs leading-5 text-muted">
+					{messageStep.isFinalTrigger
+						? 'Satu kejutan istimewa sedang menunggumu.'
+						: 'Baca pelan-pelan, lalu lanjutkan misinya.'}
+				</p>
+			</div>
+		{:else if isReady}
+			<div class="bottom-panel">
+				<Button href={guardHref} variant="secondary" fullWidth>{guardLabel}</Button>
+			</div>
+		{/if}
+	{/snippet}
+
+	<div class="page-enter flex h-full min-h-0 items-center">
 		{#if !isReady}
-			<PaperCard class="w-full">
+			<PaperCard compact class="w-full">
 				<div class="py-8 text-center" aria-live="polite">
 					<img
 						class="mx-auto size-9 animate-pulse"
@@ -47,29 +72,19 @@
 					message="Temukan hadiah dari petunjuk yang sedang terbuka, lalu scan QR-nya dari dalam web."
 					actionHref={guardHref}
 					actionLabel={guardLabel}
+					showAction={false}
+					compact
 				/>
 			</div>
 		{:else}
-			<div class="w-full space-y-5">
+			<div class="w-full">
 				<MessageCard
 					title="Kamu menemukan sesuatu ❤️"
 					message={messageStep.message}
 					illustration="/assets/illustrations/envelope-heart.webp"
 					illustrationAlt="Amplop kecil dengan hiasan hati"
 					note="Sebuah pesan kecil terbuka untukmu. Simpan baik-baik, ya."
-				/>
-
-				<UnlockCard
-					title={messageStep.isFinalTrigger
-						? 'Satu kejutan terakhir menunggu ✨'
-						: 'Petunjuk baru terbuka ✨'}
-					message={messageStep.isFinalTrigger
-						? 'Ada sesuatu yang istimewa menunggumu.'
-						: 'Baca pelan-pelan, lalu lanjutkan misinya.'}
-					href={messageStep.isFinalTrigger ? '/final' : '/clue'}
-					ctaLabel={messageStep.isFinalTrigger
-						? 'Lanjut ke Kejutan Terakhir'
-						: 'Buka Petunjuk Berikutnya'}
+					compact
 				/>
 			</div>
 		{/if}

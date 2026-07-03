@@ -18,6 +18,8 @@
 	--font-heading: var(--gift-font-heading);
 	--font-body: var(--gift-font-body);
 	--font-handwritten: var(--gift-font-handwritten);
+	--font-sans: 'Comic Neue', cursive;
+	--font-hand: 'Comic Neue', cursive;
 
 	--radius-sm: var(--gift-radius-sm);
 	--radius-md: var(--gift-radius-md);
@@ -27,6 +29,11 @@
 	--shadow-card: var(--gift-shadow-card);
 	--shadow-button: var(--gift-shadow-button);
 	--shadow-soft: var(--gift-shadow-soft);
+}
+
+:root {
+	--font-family-sans: 'Comic Neue', cursive;
+	--font-family-hand: 'Comic Neue', cursive;
 }
 
 @layer base {
@@ -41,7 +48,7 @@
 		overflow-x: hidden;
 		background: var(--gift-color-cream);
 		color: var(--gift-color-ink);
-		font-family: var(--gift-font-body);
+		font-family: var(--font-family-sans);
 		-webkit-text-size-adjust: 100%;
 	}
 
@@ -54,13 +61,15 @@
 		background-image: url('/assets/backgrounds/warm-cream-bg.webp');
 		background-position: center;
 		background-size: cover;
+		font-family: var(--font-family-sans);
 	}
 
+	body,
 	button,
 	input,
 	textarea,
 	select {
-		font: inherit;
+		font-family: var(--font-family-sans);
 	}
 
 	button,
@@ -78,11 +87,23 @@
 	h2,
 	h3 {
 		color: var(--gift-color-brown);
-		font-family: var(--gift-font-heading);
+		font-family: var(--font-family-hand);
 	}
 }
 
 @layer components {
+	.font-hand {
+		font-family: var(--font-family-hand);
+	}
+
+	.font-body {
+		font-family: var(--font-family-sans);
+	}
+
+	.font-sans {
+		font-family: var(--font-family-sans);
+	}
+
 	.mobile-shell {
 		width: min(100%, var(--gift-layout-mobile-width));
 		min-height: 100dvh;

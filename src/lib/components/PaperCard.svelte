@@ -6,6 +6,7 @@
 		subtitle?: string;
 		icon?: string;
 		elevated?: boolean;
+		compact?: boolean;
 		class?: string;
 		children: Snippet;
 	}
@@ -15,6 +16,7 @@
 		subtitle,
 		icon,
 		elevated = true,
+		compact = false,
 		class: className = '',
 		children
 	}: Props = $props();
@@ -22,7 +24,8 @@
 
 <section
 	class={[
-		'paper-card relative overflow-hidden rounded-xl border border-white/70 bg-cream-soft/95 p-5 sm:p-6',
+		'paper-card relative overflow-hidden rounded-xl border border-white/70 bg-cream-soft/95',
+		compact ? 'p-4' : 'p-5 sm:p-6',
 		elevated ? 'shadow-card' : 'shadow-soft',
 		className
 	]
@@ -33,21 +36,25 @@
 
 	<div class="relative z-10">
 		{#if icon || title || subtitle}
-			<header class="mb-5 text-center">
+			<header class="text-center" class:mb-3={compact} class:mb-5={!compact}>
 				{#if icon}
 					<div
-						class="mx-auto mb-3 flex size-12 items-center justify-center rounded-full bg-peach/20"
+						class="mx-auto flex items-center justify-center rounded-full bg-peach/20"
+						class:mb-2={compact}
+						class:size-10={compact}
+						class:mb-3={!compact}
+						class:size-12={!compact}
 					>
-						<img class="size-6" src={icon} alt="" aria-hidden="true" />
+						<img class:size-5={compact} class:size-6={!compact} src={icon} alt="" aria-hidden="true" />
 					</div>
 				{/if}
 
 				{#if title}
-					<h2 class="text-xl font-extrabold text-brown sm:text-2xl">{title}</h2>
+					<h2 class="font-hand text-2xl font-bold leading-tight text-brown sm:text-3xl">{title}</h2>
 				{/if}
 
 				{#if subtitle}
-					<p class="mt-2 text-sm leading-6 text-muted">{subtitle}</p>
+					<p class="font-body mt-2 text-sm leading-6 text-muted">{subtitle}</p>
 				{/if}
 			</header>
 		{/if}
