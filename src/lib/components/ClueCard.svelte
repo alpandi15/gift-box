@@ -29,7 +29,7 @@
 	});
 </script>
 
-<PaperCard {compact} torn tilt={-1} class={compact ? 'h-full' : ''}>
+<PaperCard {compact} torn tilt={-1}>
 	<div class="text-center">
 		<TapeLabel text={eyebrow} color="purple" icon="/assets/icons/sparkle.svg" />
 

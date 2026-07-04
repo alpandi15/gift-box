@@ -7,7 +7,11 @@
 	import { fade } from 'svelte/transition';
 
 	const images = [
+		'/assets/gallery/IMG_20220317_213441.webp',
+		'/assets/gallery/IMG_20220328_185457.webp',
+		'/assets/gallery/IMG_20220626_152008.webp',
 		'/assets/gallery/1783167323605.webp',
+		'/assets/gallery/ella.webp',
 		'/assets/gallery/1783167323622.jpg',
 		'/assets/gallery/1783167323646.jpg',
 		'/assets/gallery/1783167323669.jpg',
@@ -19,7 +23,7 @@
 		'/assets/gallery/1783167323855.webp',
 		'/assets/gallery/1783167323880.webp',
 		'/assets/gallery/1783167323896.jpg',
-		'/assets/gallery/1783167323912.jpg'
+		'/assets/gallery/1783167323912.jpg',
 	];
 
 	let isReady = $state(false);

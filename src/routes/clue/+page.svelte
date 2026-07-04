@@ -64,7 +64,7 @@
 				</div>
 			</PaperCard>
 		{:else}
-			<div class="h-full max-h-[32rem] w-full">
+			<div class="max-h-full w-full overflow-y-auto">
 				<ClueCard
 					title={clueStep.title}
 					clue={clueStep.clue}

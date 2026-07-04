@@ -138,6 +138,12 @@
 				</p>
 			</div>
 		</PaperCard>
+
+		{#if !showCover}
+			<div class="wife-character" aria-hidden="true">
+				<img class="wife-character__img" src="/assets/illustrations/character.png" alt="" />
+			</div>
+		{/if}
 	</div>
 </AppShell>
 
@@ -219,6 +225,7 @@
 		place-items: center;
 		overflow: auto;
 		padding: 1.5rem;
+		background-color: var(--gift-color-cream);
 		animation: intro-cover-in 420ms ease both;
 	}
 
@@ -226,16 +233,21 @@
 		animation: intro-cover-out 500ms ease forwards;
 	}
 
+	/* Photo backdrop, constrained to a mobile-width band and centered */
 	.intro-cover__bg {
 		position: absolute;
 		inset: 0;
 		z-index: -1;
+		margin-inline: auto;
+		width: 100%;
+		max-width: 30rem;
 		background-color: var(--gift-color-cream);
 		background-image:
-			linear-gradient(180deg, rgb(255 249 240 / 60%), rgb(244 166 160 / 22%)),
-			url('/assets/backgrounds/warm-cream-bg.webp');
+			linear-gradient(180deg, rgb(255 249 240 / 42%), rgb(107 63 42 / 34%)),
+			url('/assets/gallery/1783167323753.webp');
 		background-position: center;
 		background-size: cover;
+		box-shadow: 0 0 60px rgb(107 63 42 / 20%);
 	}
 
 	.intro-cover__inner {
@@ -297,6 +309,67 @@
 		right: -0.35rem;
 		z-index: 30;
 		pointer-events: none;
+	}
+
+	.wife-character {
+		position: absolute;
+		bottom: -0.75rem;
+		right: -1.75rem;
+		z-index: 40;
+		width: 7.25rem;
+		pointer-events: none;
+		filter: drop-shadow(0 8px 14px rgb(107 63 42 / 22%));
+		animation: wife-rise 760ms cubic-bezier(0.22, 1, 0.36, 1) 180ms both;
+	}
+
+	.wife-character__img {
+		width: 100%;
+		height: auto;
+		transform-origin: bottom center;
+		animation: wife-sway 3.8s ease-in-out 1s infinite;
+	}
+
+	@keyframes wife-rise {
+		from {
+			opacity: 0;
+			transform: translateY(70%);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	@keyframes wife-sway {
+		0%,
+		100% {
+			transform: rotate(-2deg);
+		}
+		50% {
+			transform: rotate(2deg);
+		}
+	}
+
+	@media (max-height: 700px) {
+		.wife-character {
+			width: 6rem;
+		}
+	}
+
+	@media (max-height: 560px) {
+		.wife-character {
+			display: none;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.wife-character {
+			animation: none;
+		}
+
+		.wife-character__img {
+			animation: none;
+		}
 	}
 
 	@media (max-height: 620px) {
