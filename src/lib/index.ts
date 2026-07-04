@@ -12,3 +12,4 @@ export { default as Polaroid } from './components/Polaroid.svelte';
 export { default as Tape } from './components/Tape.svelte';
 export { default as TapeLabel } from './components/TapeLabel.svelte';
 export { default as UnlockCard } from './components/UnlockCard.svelte';
+export { default as WifeCharacter } from './components/WifeCharacter.svelte';

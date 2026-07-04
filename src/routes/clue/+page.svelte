@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { AppShell, Button, ClueCard, HeartsScatter, PaperCard } from '$lib';
+	import { AppShell, Button, ClueCard, HeartsScatter, PaperCard, WifeCharacter } from '$lib';
 	import type { GiftStep } from '$lib/data/giftSteps';
 	import { canOpenFinal, getCurrentClueStep } from '$lib/utils/stepGuard';
 	import { getHuntState } from '$lib/utils/storage';
@@ -73,6 +73,10 @@
 					compact
 				/>
 			</div>
+		{/if}
+
+		{#if isReady && clueStep}
+			<WifeCharacter side="right" />
 		{/if}
 	</div>
 </AppShell>
