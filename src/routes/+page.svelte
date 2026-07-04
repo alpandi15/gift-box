@@ -58,7 +58,7 @@
 	}
 </script>
 
-<AppShell title="Birthday Gift Hunt" background="warm" compact bottomSlot>
+<AppShell title="Untuk Ella Adelia ❤️" background="warm" compact bottomSlot>
 	{#snippet bottom()}
 		<div class="bottom-panel">
 			<Button

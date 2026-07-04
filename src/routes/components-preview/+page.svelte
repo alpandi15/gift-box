@@ -15,13 +15,13 @@
 	} from '$lib';
 </script>
 
-<AppShell title="Component Preview — Birthday Gift Hunt" background="warm">
+<AppShell title="Component Preview — Untuk Ella Adelia" background="warm">
 	<div class="space-y-8 py-4">
 		<header class="text-center">
 			<p class="text-xs font-extrabold uppercase tracking-[0.18em] text-rose-dark">
 				Development preview
 			</p>
-			<h1 class="mt-2 text-3xl font-extrabold text-brown">Birthday Gift Hunt</h1>
+			<h1 class="mt-2 text-3xl font-extrabold text-brown">Untuk Ella Adelia</h1>
 			<p class="mt-2 text-sm leading-6 text-muted">Kumpulan komponen dasar untuk tampilan mobile.</p>
 		</header>
 

@@ -148,10 +148,10 @@
 </script>
 
 <svelte:head>
-	<title>QR Print — Birthday Gift Hunt</title>
+	<title>Cetak QR — Untuk Ella Adelia</title>
 	<meta
 		name="description"
-		content="Halaman internal untuk membuat, mengunduh, dan mencetak QR Birthday Gift Hunt."
+		content="Halaman internal untuk membuat, mengunduh, dan mencetak QR petunjuk untuk Ella Adelia."
 	/>
 </svelte:head>
 
