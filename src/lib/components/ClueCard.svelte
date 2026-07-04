@@ -37,12 +37,12 @@
 			<div
 				class="clue-illustration gentle-float mx-auto"
 				class:mt-2={compact}
-				class:max-w-52={compact}
+				class:max-w-64={compact}
 				class:mt-3={!compact}
-				class:max-w-72={!compact}
+				class:max-w-xs={!compact}
 			>
 				<img
-					class="aspect-square w-full object-contain"
+					class="h-auto w-full object-contain"
 					src={illustration}
 					alt={illustrationAlt}
 					aria-hidden={illustrationAlt ? undefined : 'true'}

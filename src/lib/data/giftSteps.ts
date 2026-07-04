@@ -28,7 +28,7 @@ export const giftSteps = [
 	{
 		id: 2,
 		title: 'Penjaga Setiap Langkah',
-		clue: 'Ada satu daun pintu di rumah kita yang jarang jadi sorotan, tapi diam-diam setia kita lewati setiap hari. Di baliknya, berjajar rapi para penjaga langkah — benda-benda yang menemani kakimu ke mana pun kamu pergi. Menunduklah sebentar di sana, catatan berikutnya sedang menunggu.',
+		clue: 'Di rumah kita ada satu daun pintu yang jarang sekali dibuka, nyaris terlupakan. Justru di baliknya bersembunyi para penjaga langkah — benda-benda setia yang menemani kakimu ke mana pun kamu pergi. Beranikan diri membukanya, lalu menunduklah sebentar; catatan berikutnya sudah menunggu di sana.',
 		message:
 			'Ke mana pun langkahmu membawamu, aku selalu ingin jadi yang berjalan di sampingmu. Terima kasih sudah menemaniku sejauh ini.',
 		illustration: '/assets/illustrations/bag-and-cup.webp',
