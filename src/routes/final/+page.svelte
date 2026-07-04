@@ -42,7 +42,7 @@
 	{#snippet bottom()}
 		{#if viewState === 'allowed'}
 			<div class="bottom-panel">
-				<Button href="/" fullWidth size="lg">Selesai ❤️</Button>
+				<Button href="/gallery" fullWidth size="lg">Lihat Kenangan Kita ❤️</Button>
 				<div class="mt-1 text-center">
 					<Button
 						variant="ghost"
@@ -100,7 +100,7 @@
 
 				<LetterCard
 					title="Untukmu, Sayang ❤️"
-					message="Selamat ulang tahun, cintaku. Semoga hari ini kamu merasa dicintai, dihargai, dan disayangi. Terima kasih sudah jadi rumah paling nyaman untuk aku pulang. Semoga semua impianmu dimudahkan dan hari-harimu penuh kebahagiaan."
+					message="Selamat ulang tahun, cintaku. Semoga hari ini kamu merasa dicintai, dihargai, dan disayangi. Terima kasih sudah jadi rumah paling nyaman untuk aku pulang. Semoga semua impianmu dimudahkan dan hari-harimu penuh kebahagiaan. Dan seandainya aku boleh memilih di kehidupan mana pun, aku akan tetap memilihmu — lagi, dan lagi, dan lagi."
 					signature="Dengan cinta, suamimu — Muhammad Al-Pandi"
 					compact
 				/>

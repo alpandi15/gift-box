@@ -1,4 +1,4 @@
-export const giftStepIds = [1, 2, 3, 4] as const;
+export const giftStepIds = [1, 2, 3, 4, 5] as const;
 
 export type GiftStepId = (typeof giftStepIds)[number];
 
@@ -17,7 +17,7 @@ export const giftSteps = [
 	{
 		id: 1,
 		title: 'Pantulan Paling Jujur',
-		clue: 'Melangkahlah ke ruang tempat kita menyimpan mimpi kedua. Di sana ada benda yang setiap pagi jujur memperlihatkan wajah tercantik yang aku kenal. Coba menunduk sedikit — ada catatan kecil yang diam-diam menunggumu di kolongnya.',
+		clue: 'Melangkahlah ke ruang tempat kita menyimpan mimpi kedua. Di sana ada satu tempat yang biasa memantulkan wajah paling cantik yang pernah aku pandang. Coba menunduk sedikit — ada catatan kecil yang diam-diam menunggumu di kolongnya.',
 		message:
 			'Setiap pagi, wajahmu adalah pemandangan pertama yang membuat hariku layak dijalani. Terima kasih sudah jadi orang tercantik di rumah ini.',
 		illustration: '/assets/illustrations/mirror-table.webp',
@@ -31,7 +31,7 @@ export const giftSteps = [
 		clue: 'Di rumah kita ada satu daun pintu yang jarang sekali dibuka, nyaris terlupakan. Justru di baliknya bersembunyi para penjaga langkah — benda-benda setia yang menemani kakimu ke mana pun kamu pergi. Beranikan diri membukanya, lalu menunduklah sebentar; catatan berikutnya sudah menunggu di sana.',
 		message:
 			'Ke mana pun langkahmu membawamu, aku selalu ingin jadi yang berjalan di sampingmu. Terima kasih sudah menemaniku sejauh ini.',
-		illustration: '/assets/illustrations/bag-and-cup.webp',
+		illustration: '/assets/illustrations/rak-sepatu.png',
 		qrToken: 'CATATAN-2',
 		nextStep: 3,
 		isFinalTrigger: false
@@ -42,7 +42,7 @@ export const giftSteps = [
 		clue: 'Menujulah ke ruang paling belakang di rumah kita. Di sana ada tempat peristirahatan yang dulu jadi sandaran lelah kita, namun kita relakan turun demi si kecil yang kedua. Di dalam perutnya, tersimpan diam-diam catatan berikutnya. Bukalah perlahan.',
 		message:
 			'Banyak hal kecil kita relakan demi anak-anak kita, tanpa pernah kamu keluhkan. Terima kasih sudah jadi ibu yang begitu tulus dan penuh cinta.',
-		illustration: '/assets/illustrations/sofa-corner.webp',
+		illustration: '/assets/illustrations/tempat-tidur.png',
 		qrToken: 'CATATAN-3',
 		nextStep: 4,
 		isFinalTrigger: false
@@ -50,11 +50,22 @@ export const giftSteps = [
 	{
 		id: 4,
 		title: 'Rumah Seribu Cerita',
-		clue: 'Menepilah ke tempat berkumpulnya seribu cerita dan pengetahuan. Deretan punggung yang berdiri rapi itu menyimpan satu hal terakhir dariku. Di sanalah babak penutup perjalanan hari ini menantimu.',
+		clue: 'Menepilah ke tempat berkumpulnya seribu cerita dan pengetahuan. Deretan punggung yang berdiri rapi itu menyimpan satu catatan lagi dariku. Ambil pelan-pelan, lalu lanjutkan langkahmu.',
 		message:
-			'Di antara semua cerita yang kita tulis bersama, kamu selalu jadi bab favoritku. Satu catatan terakhir sudah menunggu — bukalah, ya.',
-		illustration: '/assets/illustrations/envelope-heart.webp',
+			'Di antara semua cerita yang kita tulis bersama, kamu selalu jadi bab favoritku. Masih ada satu tempat lagi yang ingin aku tunjukkan — ikuti terus, ya.',
+		illustration: '/assets/illustrations/rak-buku.png',
 		qrToken: 'CATATAN-4',
+		nextStep: 5,
+		isFinalTrigger: false
+	},
+	{
+		id: 5,
+		title: 'Sudut yang Sering Merebut Waktuku',
+		clue: 'Ada satu sudut di rumah ini tempat aku sering tenggelam dalam pekerjaan — mungkin terlalu sering. Menujulah ke meja tempat aku biasa bekerja, lalu menunduklah dan raih pelan-pelan ke kolongnya. Ada sesuatu yang diam-diam aku titipkan di sana untukmu.',
+		message:
+			'Maaf ya, sayang. Waktu suamimu ini lebih banyak habis di depan meja kerja daripada bersamamu dan anak-anak. Maaf juga kalau kadang aku tidak sempat membantumu mengurus rumah. Sebagai permintaan maafku, ada sedikit hadiah kecil untukmu di sini. Semoga kamu suka, ya, sayang.',
+		illustration: '/assets/illustrations/meja-kerja.png',
+		qrToken: 'CATATAN-5',
 		nextStep: null,
 		isFinalTrigger: true
 	}

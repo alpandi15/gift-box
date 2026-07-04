@@ -6,7 +6,7 @@
 
 	let { children } = $props();
 
-	const gameplayRoutes = new Set(['/', '/clue', '/scan', '/message', '/final']);
+	const gameplayRoutes = new Set(['/', '/clue', '/scan', '/message', '/final', '/gallery']);
 	let showMusicDisc = $derived(gameplayRoutes.has(page.url.pathname));
 </script>
 
