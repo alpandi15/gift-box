@@ -102,7 +102,7 @@
 				</div>
 
 				<h1 class="font-script mt-3 text-4xl font-bold leading-tight text-brown min-[390px]:text-5xl">
-					Selamat ulang tahun, sayang ❤️
+					Selamat ulang tahun, sayangku Ella Adelia ❤️
 				</h1>
 
 				<p class="font-body mx-auto mt-3 max-w-sm text-sm leading-6 text-muted min-[390px]:text-base">

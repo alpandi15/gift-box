@@ -103,7 +103,7 @@
 				<LetterCard
 					title="Untukmu, Sayang ❤️"
 					message="Selamat ulang tahun, cintaku. Semoga hari ini kamu merasa dicintai, dihargai, dan disayangi. Terima kasih sudah jadi rumah paling nyaman untuk aku pulang. Semoga semua impianmu dimudahkan dan hari-harimu penuh kebahagiaan."
-					signature="Dari cintamu, - Muhammad Al-Pandi"
+					signature="Dengan cinta, suamimu — Muhammad Al-Pandi"
 					compact
 				/>
 			</div>
