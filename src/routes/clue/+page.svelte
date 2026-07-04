@@ -64,7 +64,7 @@
 				</div>
 			</PaperCard>
 		{:else}
-			<div class="max-h-full w-full overflow-y-auto">
+			<div class="max-h-full w-full">
 				<ClueCard
 					title={clueStep.title}
 					clue={clueStep.clue}
@@ -76,7 +76,7 @@
 		{/if}
 
 		{#if isReady && clueStep}
-			<WifeCharacter side="right" />
+			<WifeCharacter side="right" width="7.75rem" />
 		{/if}
 	</div>
 </AppShell>

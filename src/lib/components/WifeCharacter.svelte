@@ -36,10 +36,6 @@
 		width: 100%;
 	}
 
-	.wife-character--right .wife-character__flip {
-		transform: scaleX(-1);
-	}
-
 	.wife-character__img {
 		width: 100%;
 		height: auto;
