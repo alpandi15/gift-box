@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { AppShell, Button, HeartsScatter, PaperCard, Polaroid } from '$lib';
+	import { AppShell, Button, HeartsScatter, PaperCard, Polaroid, TapeLabel } from '$lib';
 	import { giftStepIds } from '$lib/data/giftSteps';
 	import { playMusic } from '$lib/stores/musicStore';
 	import { getHuntState, resetHuntState, updateHuntState } from '$lib/utils/storage';
@@ -10,11 +10,27 @@
 	let isReady = $state(false);
 	let isNavigating = $state(false);
 	let isResetting = $state(false);
+	let showCover = $state(true);
+	let isOpeningCover = $state(false);
 
 	onMount(() => {
 		hasStarted = getHuntState().started;
 		isReady = true;
 	});
+
+	async function openCover() {
+		if (isOpeningCover) return;
+
+		isOpeningCover = true;
+		// User gesture — safe to start the music here.
+		void playMusic();
+
+		// Let the fade-out animation play before unmounting the cover.
+		setTimeout(() => {
+			showCover = false;
+			isOpeningCover = false;
+		}, 520);
+	}
 
 	async function startMission() {
 		if (isNavigating) return;
@@ -93,7 +109,7 @@
 					<img
 						class="aspect-square w-full object-contain"
 						src="/assets/illustrations/opening-room.webp"
-						alt="Ilustrasi ruangan hangat dengan hadiah ulang tahun"
+						alt="Ilustrasi ruangan hangat di rumah kita"
 					/>
 				</div>
 
@@ -102,23 +118,179 @@
 				</div>
 
 				<h1 class="font-script mt-3 text-4xl font-bold leading-tight text-brown min-[390px]:text-5xl">
-					Selamat ulang tahun, sayangku Ella Adelia ❤️
+					Selamat ulang tahun,<br />sayangku Ella Adelia ❤️
 				</h1>
 
+				<p class="birth-date font-body mx-auto mt-2 w-fit text-xs font-semibold text-rose-dark">
+					<span class="birth-date__line"></span>
+					7 Juli 1998
+					<span class="birth-date__line"></span>
+				</p>
+
 				<p class="font-body mx-auto mt-3 max-w-sm text-sm leading-6 text-muted min-[390px]:text-base">
-					Ada sesuatu yang aku siapkan untukmu. Tapi kamu harus menemukannya pelan-pelan.
-					Ikuti petunjuknya, jangan lompat, dan nikmati perjalanannya.
+					Aku menuliskan beberapa catatan kecil dan menaruhnya di tempat-tempat yang
+					berarti buat kita. Ikuti petunjuknya satu per satu, jangan lompat, dan nikmati
+					perjalanannya.
 				</p>
 
 				<p class="font-body mt-3 text-xs leading-5 text-muted">
-					Disiapkan dengan cinta, khusus untuk hari istimewamu.
+					Ditulis dengan cinta, khusus untuk hari istimewamu.
 				</p>
 			</div>
 		</PaperCard>
 	</div>
 </AppShell>
 
+{#if showCover}
+	<div
+		class="intro-cover"
+		class:intro-cover--leaving={isOpeningCover}
+		role="dialog"
+		aria-modal="true"
+		aria-label="Catatan ulang tahun untuk Ella Adelia"
+	>
+		<div class="intro-cover__bg" aria-hidden="true"></div>
+		<HeartsScatter />
+
+		<div class="intro-cover__inner">
+			<div class="intro-polaroid" aria-hidden="true">
+				<Polaroid
+					src="/assets/illustrations/couple-polaroid-placeholder.webp"
+					width="5rem"
+					tilt={-7}
+					tape="purple"
+				/>
+			</div>
+
+			<PaperCard torn tilt={-1} class="relative w-full">
+				<div class="text-center">
+					<TapeLabel text="7 Juli — Hari Spesialmu" color="peach" icon="/assets/icons/heart.svg" />
+
+					<div class="intro-illus gentle-float mx-auto mt-4 max-w-40">
+						<img
+							class="aspect-square w-full object-contain"
+							src="/assets/illustrations/envelope-heart.webp"
+							alt="Amplop kecil berhias hati"
+						/>
+					</div>
+
+					<h1 class="font-script mt-3 text-4xl font-bold leading-tight text-brown min-[390px]:text-5xl">
+						Untuk Istriku Tercinta,<br />Ella Adelia
+					</h1>
+
+					<p class="font-body mx-auto mt-3 max-w-xs text-sm leading-6 text-muted min-[390px]:text-base">
+						Hari ini, izinkan aku menuntunmu menyusuri sudut-sudut rumah kita lewat
+						beberapa catatan kecil. Tarik napas, tersenyum, lalu ikuti pelan-pelan, ya.
+					</p>
+
+					<div class="mt-6">
+						<Button fullWidth size="lg" disabled={isOpeningCover} onclick={openCover}>
+							{isOpeningCover ? 'Membuka...' : 'Ikuti Langkahnya ❤️'}
+						</Button>
+						<p class="font-body mt-3 text-xs leading-5 text-muted">
+							Ketuk untuk memulai — musik akan menyala 🎵
+						</p>
+					</div>
+				</div>
+			</PaperCard>
+		</div>
+	</div>
+{/if}
+
 <style>
+	.birth-date {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		letter-spacing: 0.08em;
+	}
+
+	.birth-date__line {
+		width: 1.5rem;
+		height: 1px;
+		background: var(--gift-color-tan);
+	}
+
+	.intro-cover {
+		position: fixed;
+		inset: 0;
+		z-index: 90;
+		display: grid;
+		place-items: center;
+		overflow: auto;
+		padding: 1.5rem;
+		animation: intro-cover-in 420ms ease both;
+	}
+
+	.intro-cover--leaving {
+		animation: intro-cover-out 500ms ease forwards;
+	}
+
+	.intro-cover__bg {
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		background-color: var(--gift-color-cream);
+		background-image:
+			linear-gradient(180deg, rgb(255 249 240 / 60%), rgb(244 166 160 / 22%)),
+			url('/assets/backgrounds/warm-cream-bg.webp');
+		background-position: center;
+		background-size: cover;
+	}
+
+	.intro-cover__inner {
+		position: relative;
+		width: min(100%, 25rem);
+	}
+
+	.intro-polaroid {
+		position: absolute;
+		top: -2.25rem;
+		left: -0.5rem;
+		z-index: 30;
+		pointer-events: none;
+	}
+
+	@keyframes intro-cover-in {
+		from {
+			opacity: 0;
+			transform: scale(1.02);
+		}
+		to {
+			opacity: 1;
+			transform: scale(1);
+		}
+	}
+
+	@keyframes intro-cover-out {
+		from {
+			opacity: 1;
+			transform: scale(1);
+		}
+		to {
+			opacity: 0;
+			transform: scale(0.98);
+			visibility: hidden;
+		}
+	}
+
+	@media (max-height: 640px) {
+		.intro-polaroid {
+			display: none;
+		}
+
+		.intro-illus {
+			max-width: 7rem;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.intro-cover,
+		.intro-cover--leaving {
+			animation: none;
+		}
+	}
+
 	.polaroid-pin {
 		position: absolute;
 		top: -0.25rem;

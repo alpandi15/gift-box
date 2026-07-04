@@ -74,13 +74,13 @@
 						alt=""
 						aria-hidden="true"
 					/>
-					<p class="mt-3 text-sm font-semibold text-muted">Menyiapkan kejutanmu...</p>
+					<p class="mt-3 text-sm font-semibold text-muted">Menyiapkan catatan terakhirmu...</p>
 				</div>
 			</PaperCard>
 		{:else if viewState === 'guarded'}
 			<div class="w-full">
 				<GuardNotice
-					title="Kejutannya masih terkunci 💌"
+					title="Catatan terakhir masih terkunci 💌"
 					message="Masih ada petunjuk yang menunggumu. Kembali dulu dan lanjutkan perjalanan kecil ini, ya."
 					actionHref={guardHref}
 					actionLabel={guardLabel}

@@ -41,7 +41,7 @@
 					Scan QR yang Kamu Temukan
 				</Button>
 				<p class="mt-2 text-xs leading-5 text-muted">
-					Cari hadiahnya, lalu buka kamera dari sini.
+					Kalau sudah sampai di tempatnya, buka kamera dari sini.
 				</p>
 			</div>
 		{/if}

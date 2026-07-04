@@ -36,13 +36,13 @@
 					size="lg"
 				>
 					{messageStep.isFinalTrigger
-						? 'Lanjut ke Kejutan Terakhir'
+						? 'Lanjut ke Catatan Terakhir'
 						: 'Buka Petunjuk Berikutnya'}
 				</Button>
 				<p class="mt-2 text-center text-xs leading-5 text-muted">
 					{messageStep.isFinalTrigger
-						? 'Satu kejutan istimewa sedang menunggumu.'
-						: 'Baca pelan-pelan, lalu lanjutkan misinya.'}
+						? 'Satu catatan istimewa sedang menunggumu.'
+						: 'Baca pelan-pelan, lalu lanjutkan perjalanannya.'}
 				</p>
 			</div>
 		{:else if isReady}
@@ -72,7 +72,7 @@
 			<div class="w-full">
 				<GuardNotice
 					title="Pesannya masih terkunci 💌"
-					message="Temukan hadiah dari petunjuk yang sedang terbuka, lalu scan QR-nya dari dalam web."
+					message="Ikuti dulu petunjuk yang sedang terbuka, lalu scan QR-nya dari dalam web."
 					actionHref={guardHref}
 					actionLabel={guardLabel}
 					showAction={false}
@@ -82,7 +82,7 @@
 		{:else}
 			<div class="w-full">
 				<MessageCard
-					title="Kamu menemukan sesuatu ❤️"
+					title="Ada pesan untukmu ❤️"
 					message={messageStep.message}
 					illustration="/assets/illustrations/envelope-heart.webp"
 					illustrationAlt="Amplop kecil dengan hiasan hati"

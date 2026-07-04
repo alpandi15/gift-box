@@ -168,9 +168,9 @@
 			case 'wrong-step':
 				return 'Eits, QR ini belum waktunya dibuka 😄 Ikuti petunjuk yang sedang aktif dulu, ya.';
 			case 'not-started':
-				return 'Mulai misinya dulu supaya kejutan bisa terbuka satu per satu.';
+				return 'Mulai perjalanannya dulu supaya catatannya bisa terbuka satu per satu.';
 			default:
-				return 'Hmm, QR ini bukan bagian dari misi kita. Coba arahkan kamera ke QR pada hadiah.';
+				return 'Hmm, QR ini bukan bagian dari perjalanan kita. Coba arahkan kamera ke QR dari petunjuk yang sedang aktif.';
 		}
 	}
 
@@ -285,12 +285,12 @@
 					<div class="text-center">
 						<h2 class="font-script text-3xl font-bold text-brown">Masukkan Kode</h2>
 						<p class="mt-1 text-sm leading-6 text-muted">
-							Tidak bisa scan kameranya? Ketik kode yang tertera di bawah QR pada hadiah.
+							Kameranya tidak mau bekerja? Ketik saja kode yang tertera di dekat QR-nya.
 						</p>
 
 						<form class="mt-4 text-left" onsubmit={submitManualCode}>
 							<label class="text-xs font-bold uppercase tracking-[0.12em] text-rose-dark" for="manual-code">
-								Kode Hadiah
+								Kode Petunjuk
 							</label>
 							<input
 								bind:this={manualInputEl}
@@ -302,7 +302,7 @@
 								autocomplete="off"
 								autocapitalize="characters"
 								spellcheck="false"
-								placeholder="Contoh: BDAY-GIFT-A"
+								placeholder="Contoh: CATATAN-1"
 								oninput={() => (manualFeedback = '')}
 							/>
 
