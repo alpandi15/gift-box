@@ -42,7 +42,7 @@ export const giftSteps = [
 		clue: 'Menujulah ke ruang paling belakang di rumah kita. Di sana ada tempat peristirahatan yang dulu jadi sandaran lelah kita, namun kita relakan turun demi si kecil yang kedua. Di dalam perutnya, tersimpan diam-diam catatan berikutnya. Bukalah perlahan.',
 		message:
 			'Banyak hal kecil kita relakan demi anak-anak kita, tanpa pernah kamu keluhkan. Terima kasih sudah jadi ibu yang begitu tulus dan penuh cinta.',
-		illustration: '/assets/illustrations/opening-room.webp',
+		illustration: '/assets/illustrations/sofa-corner.webp',
 		qrToken: 'CATATAN-3',
 		nextStep: 4,
 		isFinalTrigger: false

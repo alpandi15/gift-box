@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { AppShell, Button, GuardNotice, HeartsScatter, LetterCard, PaperCard, Polaroid } from '$lib';
+	import { AppShell, Button, GuardNotice, HeartsScatter, LetterCard, PaperCard } from '$lib';
 	import { canOpenFinal } from '$lib/utils/stepGuard';
 	import { getHuntState, resetHuntState, updateHuntState } from '$lib/utils/storage';
 	import { onMount } from 'svelte';
@@ -90,13 +90,11 @@
 			</div>
 		{:else}
 			<div class="relative w-full">
-				<div class="final-polaroid" aria-hidden="true">
-					<Polaroid
-						src="/assets/illustrations/couple-polaroid-placeholder.webp"
-						width="6rem"
-						tilt={7}
-						tape="peach"
-						caption="kita ❤️"
+				<div class="final-gift gentle-float mx-auto mb-3 max-w-44">
+					<img
+						class="aspect-square w-full object-contain"
+						src="/assets/illustrations/final-big-gift.webp"
+						alt="Kado ulang tahun untuk Ella Adelia"
 					/>
 				</div>
 
@@ -112,16 +110,18 @@
 </AppShell>
 
 <style>
-	.final-polaroid {
-		position: absolute;
-		top: -6.75rem;
-		right: -0.25rem;
-		z-index: 30;
-		pointer-events: none;
+	.final-gift {
+		width: 100%;
 	}
 
-	@media (max-height: 760px) {
-		.final-polaroid {
+	@media (max-height: 720px) {
+		.final-gift {
+			max-width: 8rem;
+		}
+	}
+
+	@media (max-height: 600px) {
+		.final-gift {
 			display: none;
 		}
 	}

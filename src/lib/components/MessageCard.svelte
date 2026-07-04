@@ -29,11 +29,11 @@
 
 		{#if illustration}
 			<div
-				class="message-illustration mx-auto overflow-hidden rounded-lg bg-rose/10 p-1.5"
-				class:mb-2={compact}
-				class:max-w-24={compact}
-				class:mb-5={!compact}
-				class:max-w-56={!compact}
+				class="message-illustration mx-auto"
+				class:mb-1={compact}
+				class:max-w-32={compact}
+				class:mb-4={!compact}
+				class:max-w-64={!compact}
 			>
 				<img
 					class="aspect-square w-full object-contain"

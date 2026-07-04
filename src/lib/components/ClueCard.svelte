@@ -35,11 +35,11 @@
 
 		{#if illustration}
 			<div
-				class="mx-auto overflow-hidden rounded-lg bg-peach/10 p-1.5"
-				class:mt-3={compact}
-				class:max-w-36={compact}
-				class:mt-4={!compact}
-				class:max-w-64={!compact}
+				class="clue-illustration gentle-float mx-auto"
+				class:mt-2={compact}
+				class:max-w-52={compact}
+				class:mt-3={!compact}
+				class:max-w-72={!compact}
 			>
 				<img
 					class="aspect-square w-full object-contain"
@@ -99,3 +99,21 @@
 		{/if}
 	</div>
 </PaperCard>
+
+<style>
+	.clue-illustration {
+		width: 100%;
+	}
+
+	@media (max-height: 720px) {
+		.clue-illustration {
+			max-width: 11rem;
+		}
+	}
+
+	@media (max-height: 600px) {
+		.clue-illustration {
+			max-width: 8.5rem;
+		}
+	}
+</style>
