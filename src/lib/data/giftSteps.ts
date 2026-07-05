@@ -17,7 +17,7 @@ export const giftSteps = [
 	{
 		id: 1,
 		title: 'Pantulan Paling Jujur',
-		clue: 'Melangkahlah ke ruang tempat kita menyimpan mimpi kedua. Di sana ada satu tempat yang biasa memantulkan wajah paling cantik yang pernah aku pandang. Coba menunduk sedikit — ada catatan kecil yang diam-diam menunggumu di kolongnya.',
+		clue: 'Melangkahlah ke sudut tempat kamu biasa berbenah — sebelum pergi ke mana-mana, atau setelah selesai mandi. Di sana ada satu tempat yang setia memantulkan wajah paling cantik yang pernah aku pandang. Coba menunduk sedikit — ada catatan kecil yang diam-diam menunggumu di kolongnya.',
 		message:
 			'Setiap pagi, wajahmu adalah pemandangan pertama yang membuat hariku layak dijalani. Terima kasih sudah jadi orang tercantik di rumah ini.',
 		illustration: '/assets/illustrations/mirror-table.webp',
@@ -63,7 +63,7 @@ export const giftSteps = [
 		title: 'Sudut yang Sering Merebut Waktuku',
 		clue: 'Ada satu sudut di rumah ini tempat aku sering tenggelam dalam pekerjaan — mungkin terlalu sering. Menujulah ke meja tempat aku biasa bekerja, lalu menunduklah dan raih pelan-pelan ke kolongnya. Ada sesuatu yang diam-diam aku titipkan di sana untukmu.',
 		message:
-			'Maaf ya, sayang. Waktu suamimu ini lebih banyak habis di depan meja kerja daripada bersamamu dan anak-anak. Maaf juga kalau kadang aku tidak sempat membantumu mengurus rumah. Sebagai permintaan maafku, ada sedikit hadiah kecil untukmu di sini. Semoga kamu suka, ya, sayang.',
+			'Maafkan aku, cintaku. Terlalu sering waktuku habis di meja kerja ini, sampai kadang aku lupa bahwa waktu paling berharga adalah yang aku habiskan bersamamu dan anak-anak. Maaf juga bila ada hari-hari aku kurang sempat membantumu menjaga rumah kecil kita. Terima kasih untuk kesabaran dan cinta yang tak pernah kamu kurangi, ya, sayang.',
 		illustration: '/assets/illustrations/meja-kerja.png',
 		qrToken: 'CATATAN-5',
 		nextStep: null,

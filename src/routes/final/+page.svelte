@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { AppShell, Button, GuardNotice, HeartsScatter, LetterCard, PaperCard } from '$lib';
+	import { AppShell, Button, GuardNotice, HeartsScatter, LetterCard, PaperCard, TapeLabel } from '$lib';
 	import { canOpenFinal } from '$lib/utils/stepGuard';
 	import { getHuntState, resetHuntState, updateHuntState } from '$lib/utils/storage';
 	import { onMount } from 'svelte';
@@ -8,6 +8,7 @@
 	type ViewState = 'loading' | 'allowed' | 'guarded';
 
 	let viewState = $state<ViewState>('loading');
+	let showLetter = $state(false);
 	let isResetting = $state(false);
 	let guardHref = $state('/');
 	let guardLabel = $state('Kembali ke Awal');
@@ -40,7 +41,14 @@
 
 <AppShell title="Selamat Ulang Tahun, Sayang" background="final" compact bottomSlot>
 	{#snippet bottom()}
-		{#if viewState === 'allowed'}
+		{#if viewState === 'allowed' && !showLetter}
+			<div class="bottom-panel">
+				<Button fullWidth size="lg" onclick={() => (showLetter = true)}>Sudah Kubuka ❤️</Button>
+				<p class="mt-2 text-center text-xs leading-5 text-muted">
+					Kalau kadonya sudah di tanganmu, buka pesan terakhir dariku.
+				</p>
+			</div>
+		{:else if viewState === 'allowed'}
 			<div class="bottom-panel">
 				<Button href="/gallery" fullWidth size="lg">Lihat Kenangan Kita ❤️</Button>
 				<div class="mt-1 text-center">
@@ -87,6 +95,32 @@
 					showAction={false}
 					compact
 				/>
+			</div>
+		{:else if !showLetter}
+			<div class="relative w-full">
+				<div class="final-gift soft-pulse mx-auto mb-3 max-w-52">
+					<img
+						class="aspect-square w-full object-contain"
+						src="/assets/illustrations/final-big-gift.webp"
+						alt="Kado ulang tahun untuk Ella Adelia"
+					/>
+				</div>
+
+				<PaperCard compact torn tilt={-1} class="w-full">
+					<div class="text-center">
+						<TapeLabel text="Ada Kado Untukmu" color="peach" icon="/assets/icons/heart.svg" />
+
+						<h2 class="font-script mt-3 text-3xl font-bold leading-tight text-brown">
+							Satu Kejutan Kecil 🎁
+						</h2>
+
+						<p class="font-body mx-auto mt-3 max-w-sm text-base leading-7 text-ink">
+							Sebelum kamu membaca pesan terakhirku, coba buka laci di bawah meja kerjaku, ya.
+							Di sana ada kado kecil yang sudah menunggumu — sebagai kado ulang tahun sekaligus
+							tanda permintaan maafku. Bukalah pelan-pelan. ❤️
+						</p>
+					</div>
+				</PaperCard>
 			</div>
 		{:else}
 			<div class="relative w-full">

@@ -1,5 +1,39 @@
 @import 'tailwindcss';
 
+/* Self-hosted fonts (same-origin) so screenshot/share capture can embed them
+   without hitting cross-origin cssRules errors. */
+@font-face {
+	font-family: 'Caveat';
+	font-style: normal;
+	font-weight: 400 700;
+	font-display: swap;
+	src: url('/assets/fonts/caveat-latin.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'Comic Neue';
+	font-style: normal;
+	font-weight: 300;
+	font-display: swap;
+	src: url('/assets/fonts/comicneue-300-latin.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'Comic Neue';
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url('/assets/fonts/comicneue-400-latin.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'Comic Neue';
+	font-style: normal;
+	font-weight: 700;
+	font-display: swap;
+	src: url('/assets/fonts/comicneue-700-latin.woff2') format('woff2');
+}
+
 @theme inline {
 	--color-cream: var(--gift-color-cream);
 	--color-cream-soft: var(--gift-color-cream-soft);

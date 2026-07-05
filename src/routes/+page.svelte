@@ -7,6 +7,7 @@
 	import { onMount } from 'svelte';
 
 	let hasStarted = $state(false);
+	let isCompleted = $state(false);
 	let isReady = $state(false);
 	let isNavigating = $state(false);
 	let isResetting = $state(false);
@@ -14,7 +15,9 @@
 	let isOpeningCover = $state(false);
 
 	onMount(() => {
-		hasStarted = getHuntState().started;
+		const state = getHuntState();
+		hasStarted = state.started;
+		isCompleted = state.completed;
 		isReady = true;
 	});
 
@@ -61,20 +64,13 @@
 <AppShell title="Untuk Ella Adelia ❤️" background="warm" compact bottomSlot>
 	{#snippet bottom()}
 		<div class="bottom-panel">
-			<Button
-				fullWidth
-				size="lg"
-				disabled={!isReady || isNavigating}
-				onclick={startMission}
-			>
-				{isNavigating
-					? 'Membuka petunjuk...'
-					: hasStarted
-						? 'Lanjutkan Misi'
-						: 'Mulai Misi'}
-			</Button>
-
-			{#if hasStarted}
+			{#if isCompleted}
+				<Button href="/messages" fullWidth size="lg">💌 Lihat Semua Pesan</Button>
+				<div class="mt-2">
+					<Button href="/gallery" variant="secondary" fullWidth size="lg">
+						📸 Lihat Kenangan Kita
+					</Button>
+				</div>
 				<div class="mt-1 text-center">
 					<Button
 						variant="ghost"
@@ -82,9 +78,35 @@
 						disabled={isResetting || isNavigating}
 						onclick={restartMission}
 					>
-						{isResetting ? 'Mengulang...' : 'Ulangi dari awal'}
+						{isResetting ? 'Mengulang...' : 'Main ulang dari awal'}
 					</Button>
 				</div>
+			{:else}
+				<Button
+					fullWidth
+					size="lg"
+					disabled={!isReady || isNavigating}
+					onclick={startMission}
+				>
+					{isNavigating
+						? 'Membuka petunjuk...'
+						: hasStarted
+							? 'Lanjutkan Misi'
+							: 'Mulai Misi'}
+				</Button>
+
+				{#if hasStarted}
+					<div class="mt-1 text-center">
+						<Button
+							variant="ghost"
+							size="sm"
+							disabled={isResetting || isNavigating}
+							onclick={restartMission}
+						>
+							{isResetting ? 'Mengulang...' : 'Ulangi dari awal'}
+						</Button>
+					</div>
+				{/if}
 			{/if}
 		</div>
 	{/snippet}

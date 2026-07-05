@@ -36,12 +36,12 @@
 					size="lg"
 				>
 					{messageStep.isFinalTrigger
-						? 'Lanjut ke Catatan Terakhir'
+						? '🎁 Ada Satu Hal Terakhir'
 						: 'Buka Petunjuk Berikutnya'}
 				</Button>
 				<p class="mt-2 text-center text-xs leading-5 text-muted">
 					{messageStep.isFinalTrigger
-						? 'Satu catatan istimewa sedang menunggumu.'
+						? 'Satu kejutan kecil menunggu di akhir perjalanan.'
 						: 'Baca pelan-pelan, lalu lanjutkan perjalanannya.'}
 				</p>
 			</div>
