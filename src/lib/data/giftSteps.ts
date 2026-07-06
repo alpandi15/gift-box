@@ -39,7 +39,7 @@ export const giftSteps = [
 	{
 		id: 3,
 		title: 'Tempat Berbaring yang Berpindah',
-		clue: 'Menujulah ke ruang paling belakang di rumah kita. Di sana ada tempat peristirahatan yang dulu jadi sandaran lelah kita, namun kita relakan turun demi si kecil yang kedua. Di dalam perutnya, tersimpan diam-diam catatan berikutnya. Bukalah perlahan.',
+		clue: 'Menujulah ke ruang paling belakang di rumah kita. Di sana ada tempat peristirahatan yang dulu jadi sandaran lelah kita, namun kita relakan turun demi si kecil Gege. Di dalam perutnya, tersimpan diam-diam catatan berikutnya. Bukalah perlahan.',
 		message:
 			'Banyak hal kecil kita relakan demi anak-anak kita, tanpa pernah kamu keluhkan. Terima kasih sudah jadi ibu yang begitu tulus dan penuh cinta.',
 		illustration: '/assets/illustrations/tempat-tidur.png',
