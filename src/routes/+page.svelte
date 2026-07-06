@@ -57,6 +57,10 @@
 		isResetting = true;
 		resetHuntState();
 		hasStarted = false;
+		isCompleted = false;
+		// Bring back the intro cover so the experience starts from the very beginning.
+		showCover = true;
+		isOpeningCover = false;
 		isResetting = false;
 	}
 </script>
@@ -162,7 +166,7 @@
 		</PaperCard>
 
 		{#if !showCover}
-			<WifeCharacter side="right" width="7.25rem" />
+			<WifeCharacter side="right" width="9rem" />
 		{/if}
 	</div>
 </AppShell>

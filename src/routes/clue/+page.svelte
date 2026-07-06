@@ -76,7 +76,7 @@
 		{/if}
 
 		{#if isReady && clueStep}
-			<WifeCharacter side="right" width="7.75rem" />
+			<WifeCharacter side="right" width="9.5rem" />
 		{/if}
 	</div>
 </AppShell>

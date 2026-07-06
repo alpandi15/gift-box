@@ -16,7 +16,7 @@
 <style>
 	.wife-character {
 		position: absolute;
-		bottom: -0.75rem;
+		bottom: -1.5rem;
 		z-index: 40;
 		width: var(--wife-width);
 		pointer-events: none;

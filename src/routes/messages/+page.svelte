@@ -117,7 +117,7 @@
 
 						<div class="share-card__foot">
 							<span class="share-card__heart">❤</span>
-							<span>Untuk Ella Adelia · 7 Juli</span>
+							<span>Dengan cinta, suamimu — Muhammad Al-Pandi</span>
 						</div>
 					</article>
 				</div>
