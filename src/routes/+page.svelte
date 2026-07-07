@@ -143,7 +143,7 @@
 					<img class="size-6" src="/assets/icons/heart.svg" alt="" aria-hidden="true" />
 				</div>
 
-				<h1 class="font-script mt-3 text-4xl font-bold leading-tight text-brown min-[390px]:text-5xl">
+				<h1 class="greeting-title font-script mt-3 text-4xl font-bold leading-tight text-brown min-[390px]:text-5xl">
 					Selamat ulang tahun,<br />sayangku Ella Adelia ❤️
 				</h1>
 
@@ -153,13 +153,13 @@
 					<span class="birth-date__line"></span>
 				</p>
 
-				<p class="font-body mx-auto mt-3 max-w-sm text-sm leading-6 text-muted min-[390px]:text-base">
+				<p class="greeting-body font-body mx-auto mt-3 max-w-sm text-sm leading-6 text-muted min-[390px]:text-base">
 					Aku menuliskan beberapa catatan kecil dan menaruhnya di tempat-tempat yang
 					berarti buat kita. Ikuti petunjuknya satu per satu, jangan lompat, dan nikmati
 					perjalanannya.
 				</p>
 
-				<p class="font-body mt-3 text-xs leading-5 text-muted">
+				<p class="greeting-note font-body mt-3 text-xs leading-5 text-muted">
 					Ditulis dengan cinta, khusus untuk hari istimewamu.
 				</p>
 			</div>
@@ -341,9 +341,47 @@
 		}
 	}
 
-	@media (max-height: 540px) {
+	/* Keep the greeting tidy and fully visible on phones (leaves room so the
+	   corner character never sits on the words). */
+	@media (max-height: 900px) {
 		.opening-illustration {
-			max-width: 6.5rem;
+			max-width: 8.5rem;
+		}
+
+		.greeting-title {
+			font-size: 2rem;
+			line-height: 1.15;
+		}
+
+		.greeting-body {
+			margin-top: 0.6rem;
+			font-size: 0.85rem;
+			line-height: 1.4;
+		}
+	}
+
+	@media (max-height: 700px) {
+		.opening-illustration {
+			max-width: 7rem;
+		}
+
+		.greeting-title {
+			font-size: 1.75rem;
+		}
+
+		.greeting-body {
+			font-size: 0.8rem;
+			line-height: 1.35;
+		}
+
+		.greeting-note {
+			display: none;
+		}
+	}
+
+	@media (max-height: 560px) {
+		.opening-illustration {
+			max-width: 5rem;
 		}
 	}
 </style>

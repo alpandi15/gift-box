@@ -64,13 +64,27 @@
 		}
 	}
 
-	@media (max-height: 700px) {
+	/* Shrink and tuck lower on smaller / shorter screens so she never covers text. */
+	@media (max-width: 430px) {
 		.wife-character {
-			width: calc(var(--wife-width) * 0.85);
+			width: calc(var(--wife-width) * 0.72);
 		}
 	}
 
-	@media (max-height: 560px) {
+	@media (max-width: 380px) {
+		.wife-character {
+			width: calc(var(--wife-width) * 0.58);
+		}
+	}
+
+	@media (max-height: 740px) {
+		.wife-character {
+			width: calc(var(--wife-width) * 0.6);
+			bottom: -1rem;
+		}
+	}
+
+	@media (max-height: 620px) {
 		.wife-character {
 			display: none;
 		}

@@ -85,7 +85,7 @@
 		<div class="bottom-panel space-y-2">
 			<Button fullWidth size="lg" disabled={isSharing} onclick={shareCard}>
 				<img class="size-5 brightness-0 invert" src="/assets/icons/heart.svg" alt="" aria-hidden="true" />
-				{isSharing ? 'Menyiapkan gambar...' : 'Bagikan / Simpan Pesan Ini'}
+				{isSharing ? 'Menyiapkan gambar...' : 'Bagikan / Simpan'}
 			</Button>
 			<div class="text-center">
 				<Button href="/" variant="ghost" size="sm">Kembali</Button>

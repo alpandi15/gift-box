@@ -51,7 +51,7 @@
 		{/if}
 
 		<h2
-			class="font-script font-bold leading-tight text-brown"
+			class="clue-title font-script font-bold leading-tight text-brown"
 			class:mt-3={compact}
 			class:text-3xl={compact}
 			class:mt-5={!compact}
@@ -60,7 +60,7 @@
 			{title}
 		</h2>
 		<p
-			class="font-body mx-auto max-w-sm text-ink"
+			class="clue-body font-body mx-auto max-w-sm text-ink"
 			class:mt-2={compact}
 			class:text-base={compact}
 			class:leading-7={compact}
@@ -105,15 +105,44 @@
 		width: 100%;
 	}
 
-	@media (max-height: 720px) {
+	/* Keep the card from getting too tall on small phones so text stays tidy
+	   and the corner character never overlaps the words. */
+	@media (max-height: 780px) {
 		.clue-illustration {
-			max-width: 11rem;
+			max-width: 10rem;
 		}
 	}
 
-	@media (max-height: 600px) {
+	@media (max-height: 700px) {
 		.clue-illustration {
-			max-width: 8.5rem;
+			max-width: 8rem;
+		}
+
+		.clue-title {
+			font-size: 1.65rem;
+		}
+
+		.clue-body {
+			font-size: 0.95rem;
+			line-height: 1.45;
+		}
+	}
+
+	@media (max-height: 620px) {
+		.clue-illustration {
+			max-width: 6.5rem;
+		}
+
+		.clue-body {
+			font-size: 0.9rem;
+			line-height: 1.4;
+		}
+	}
+
+	@media (max-width: 380px) {
+		.clue-body {
+			font-size: 0.92rem;
+			line-height: 1.42;
 		}
 	}
 </style>
