@@ -192,7 +192,7 @@
 				/>
 			</div>
 
-			<PaperCard torn tilt={-1} class="relative w-full">
+			<PaperCard torn tilt={-1} class="relative w-full !opacity-90">
 				<div class="text-center">
 					<TapeLabel text="7 Juli — Hari Spesialmu" color="peach" icon="/assets/icons/heart.svg" />
 

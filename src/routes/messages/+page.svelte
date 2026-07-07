@@ -119,6 +119,13 @@
 							<span class="share-card__heart">❤</span>
 							<span>Dengan cinta, suamimu — Muhammad Al-Pandi</span>
 						</div>
+
+						<img
+							class="share-card__character"
+							src="/assets/illustrations/character.png"
+							alt=""
+							aria-hidden="true"
+						/>
 					</article>
 				</div>
 
@@ -232,16 +239,49 @@
 		gap: 0.4rem;
 		margin-top: 1rem;
 		padding-top: 0.75rem;
+		padding-right: 4.25rem;
+		padding-left: 0.5rem;
 		border-top: 1px dashed rgb(200 95 105 / 35%);
 		color: var(--gift-color-rose-dark);
 		font-family: var(--font-family-sans);
 		font-size: 0.75rem;
 		font-weight: 700;
 		letter-spacing: 0.02em;
+		text-align: left;
 	}
 
 	.share-card__heart {
+		flex-shrink: 0;
 		color: var(--gift-color-rose);
+	}
+
+	.share-card__character {
+		position: absolute;
+		right: 0.35rem;
+		bottom: 0.25rem;
+		z-index: 3;
+		width: 4.75rem;
+		height: auto;
+		pointer-events: none;
+		filter: drop-shadow(0 4px 8px rgb(107 63 42 / 20%));
+		transform-origin: bottom center;
+		animation: share-char-sway 3.8s ease-in-out infinite;
+	}
+
+	@keyframes share-char-sway {
+		0%,
+		100% {
+			transform: rotate(-2.5deg);
+		}
+		50% {
+			transform: rotate(2.5deg);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.share-card__character {
+			animation: none;
+		}
 	}
 
 	.nav-btn {
