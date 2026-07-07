@@ -52,7 +52,7 @@ export const giftSteps = [
 		title: 'Rumah Seribu Cerita',
 		clue: 'Menepilah ke tempat berkumpulnya seribu cerita dan pengetahuan. Deretan punggung yang berdiri rapi itu menyimpan satu catatan lagi dariku. Ambil pelan-pelan, lalu lanjutkan langkahmu.',
 		message:
-			'Di antara semua cerita yang kita tulis bersama, kamu selalu jadi bab favoritku. Masih ada satu tempat lagi yang ingin aku tunjukkan — ikuti terus, ya.',
+			'Di antara semua cerita yang kita tulis bersama, kamu selalu jadi bab favoritku. Semoga novel pertama yang sedang kamu tulis dimudahkan di setiap halamannya, segera rampung, dan bisa terbit seperti yang selama ini kamu impikan. Aku akan selalu jadi pembaca pertamamu 😁. Masih ada satu tempat lagi yang ingin aku tunjukkan — ikuti terus, ya.',
 		illustration: '/assets/illustrations/rak-buku.png',
 		qrToken: 'CATATAN-4',
 		nextStep: 5,

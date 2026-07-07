@@ -8,6 +8,7 @@
 	type ViewState = 'loading' | 'allowed' | 'guarded';
 
 	let viewState = $state<ViewState>('loading');
+	let revealStep = $state(1);
 	let showLetter = $state(false);
 	let isResetting = $state(false);
 	let guardHref = $state('/');
@@ -43,10 +44,17 @@
 	{#snippet bottom()}
 		{#if viewState === 'allowed' && !showLetter}
 			<div class="bottom-panel">
-				<Button fullWidth size="lg" onclick={() => (showLetter = true)}>Sudah Kubuka ❤️</Button>
-				<p class="mt-2 text-center text-xs leading-5 text-muted">
-					Kalau kadonya sudah di tanganmu, buka pesan terakhir dariku.
-				</p>
+				{#if revealStep === 1}
+					<Button fullWidth size="lg" onclick={() => (revealStep = 2)}>Sudah Kutemukan ❤️</Button>
+					<p class="mt-2 text-center text-xs leading-5 text-muted">
+						Kalau sudah kamu temukan, masih ada satu lagi untukmu.
+					</p>
+				{:else}
+					<Button fullWidth size="lg" onclick={() => (showLetter = true)}>Sudah Kutemukan ❤️</Button>
+					<p class="mt-2 text-center text-xs leading-5 text-muted">
+						Kalau keduanya sudah di tanganmu, buka pesan terakhir dariku.
+					</p>
+				{/if}
 			</div>
 		{:else if viewState === 'allowed'}
 			<div class="bottom-panel">
@@ -102,25 +110,41 @@
 					<img
 						class="aspect-square w-full object-contain"
 						src="/assets/illustrations/final-big-gift.webp"
-						alt="Kado ulang tahun untuk Ella Adelia"
+						alt="Ilustrasi kejutan untuk Ella Adelia"
 					/>
 				</div>
 
-				<PaperCard compact torn tilt={-1} class="w-full">
-					<div class="text-center">
-						<TapeLabel text="Ada Kado Untukmu" color="peach" icon="/assets/icons/heart.svg" />
+				{#if revealStep === 1}
+					<PaperCard compact torn tilt={-1} class="w-full">
+						<div class="text-center">
+							<TapeLabel text="Ada Sesuatu Untukmu" color="peach" icon="/assets/icons/heart.svg" />
 
-						<h2 class="font-script mt-3 text-3xl font-bold leading-tight text-brown">
-							Satu Kejutan Kecil 🎁
-						</h2>
+							<h2 class="font-script mt-3 text-3xl font-bold leading-tight text-brown">
+								Satu Hal Lagi...
+							</h2>
 
-						<p class="font-body mx-auto mt-3 max-w-sm text-base leading-7 text-ink">
-							Sebelum kamu membaca pesan terakhirku, coba buka laci di bawah meja kerjaku, ya.
-							Di sana ada kado kecil yang sudah menunggumu — sebagai kado ulang tahun sekaligus
-							tanda permintaan maafku. Bukalah pelan-pelan. ❤️
-						</p>
-					</div>
-				</PaperCard>
+							<p class="font-body mx-auto mt-3 max-w-sm text-base leading-7 text-ink">
+								Sebelum kamu membaca pesan terakhirku, coba lihat di bawah meja printer. Di
+								sana ada sesuatu yang menunggumu. Ambil pelan-pelan, ya. ❤️
+							</p>
+						</div>
+					</PaperCard>
+				{:else}
+					<PaperCard compact torn tilt={-1} class="w-full">
+						<div class="text-center">
+							<TapeLabel text="Masih Ada Lagi" color="purple" icon="/assets/icons/sparkle.svg" />
+
+							<h2 class="font-script mt-3 text-3xl font-bold leading-tight text-brown">
+								Satu Lagi, ya 🥰
+							</h2>
+
+							<p class="font-body mx-auto mt-3 max-w-sm text-base leading-7 text-ink">
+								Ada satu lagi yang aku sembunyikan untukmu. Coba lihat di bawah sajadah, tepat
+								di depan cermin. Ambil dulu, lalu kembali ke sini untuk pesan terakhirku. ❤️
+							</p>
+						</div>
+					</PaperCard>
+				{/if}
 			</div>
 		{:else}
 			<div class="relative w-full">
